@@ -30,8 +30,6 @@ public class LevelGenerator : MonoBehaviour {
     [HideInInspector]
     public static volatile List<GameObject> Platforms = new List<GameObject>();
 
-    GameObject sky;
-
     private int cPlatform = 0;
     private Vector3 cOrigin;
 
@@ -41,29 +39,39 @@ public class LevelGenerator : MonoBehaviour {
         pSizes = getPlatformSizes();
         gSizes = getGapSizes(pSizes.Length);
         LevelLength += gSizes.Sum();
+        RenderUnderground();
         RenderSky();
         Generate();
 	}
 
+    private void RenderUnderground()
+    {
+        Vector3 YScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 10f));
+        Vector3 ZGroundScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0f));
+        Underground.transform.position = cOrigin;
+        Underground.transform.localScale = new Vector3(LevelLength, -YScale.y, -ZGroundScale.z);
+    }
+
     private void RenderSky()
     {
         Vector3 YScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 10f));
-        sky = GameObject.Find("Level/Backdrop");
-        sky.transform.position = cOrigin;
-        sky.transform.localScale = new Vector3(LevelLength, YScale.y-cOrigin.y,1);
+        Sky.transform.position = cOrigin;
+        Sky.transform.localScale = new Vector3(LevelLength, YScale.y-cOrigin.y,1);
     }
 
     private void RenderPlatform()
     {
-            GameObject Platform = Instantiate(Prefab);
-            Platform.transform.localScale = new Vector3(pSizes[cPlatform], 1, 1);
-            Platform.transform.position = cOrigin;
-            Platform.transform.parent = GameObject.Find("Level").transform;
-            Platforms.Add(Platform);
-			cOrigin.x += pSizes [cPlatform];
-			if (cPlatform < gSizes.Length)
-				cOrigin.x += gSizes [cPlatform];
-            cPlatform++;
+        Vector3 YGroundScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 10f));
+        Vector3 ZGroundScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0f));
+        GameObject Platform = Instantiate(Prefab);
+        Platform.transform.localScale = new Vector3(pSizes[cPlatform], -YGroundScale.y, -ZGroundScale.z);
+        Platform.transform.position = cOrigin;
+        Platform.transform.parent = GameObject.Find("Level").transform;
+        Platforms.Add(Platform);
+		cOrigin.x += pSizes [cPlatform];
+		if (cPlatform < gSizes.Length)
+			cOrigin.x += gSizes [cPlatform];
+        cPlatform++;
     }
 
     private void Update()
