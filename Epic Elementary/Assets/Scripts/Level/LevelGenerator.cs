@@ -18,6 +18,12 @@ public class LevelGenerator : MonoBehaviour {
     [SerializeField]
     private GameObject FrontDecor;
 
+    [SerializeField]
+    private int pitDepth;
+
+    [SerializeField]
+    private Vector3 Location;
+
     public float LevelLength;
     public int nMaxPlatforms;
     public int nMinPlatforms;
@@ -35,7 +41,9 @@ public class LevelGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        cOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0,.5f,10f));
+        pitDepth = Math.Abs(pitDepth);
+        cOrigin = Camera.main.ViewportToWorldPoint(Location);
+        //cOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0,.5f,10f));
         pSizes = getPlatformSizes();
         gSizes = getGapSizes(pSizes.Length);
         LevelLength += gSizes.Sum();
@@ -46,10 +54,8 @@ public class LevelGenerator : MonoBehaviour {
 
     private void RenderUnderground()
     {
-        Vector3 YScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 10f));
-        Vector3 ZGroundScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0f));
         Underground.transform.position = cOrigin;
-        Underground.transform.localScale = new Vector3(LevelLength, -YScale.y, -ZGroundScale.z);
+        Underground.transform.localScale = new Vector3(LevelLength, pitDepth, Location.z);
     }
 
     private void RenderSky()
@@ -61,10 +67,8 @@ public class LevelGenerator : MonoBehaviour {
 
     private void RenderPlatform()
     {
-        Vector3 YGroundScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 10f));
-        Vector3 ZGroundScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0f));
         GameObject Platform = Instantiate(Prefab);
-        Platform.transform.localScale = new Vector3(pSizes[cPlatform], -YGroundScale.y, -ZGroundScale.z);
+        Platform.transform.localScale = new Vector3(pSizes[cPlatform], pitDepth, Location.z);
         Platform.transform.position = cOrigin;
         Platform.transform.parent = GameObject.Find("Level").transform;
         Platforms.Add(Platform);
@@ -76,8 +80,8 @@ public class LevelGenerator : MonoBehaviour {
 
     private void Update()
     {
-        ViewportLocation = Camera.main.ViewportToWorldPoint(new Vector3(0, .5f, 10f));
-        Vector3 RightViewportLocation = Camera.main.ViewportToWorldPoint(new Vector3(1, .5f, 10f));
+        ViewportLocation = Camera.main.ViewportToWorldPoint(Location);
+        Vector3 RightViewportLocation = Camera.main.ViewportToWorldPoint(new Vector3(1, Location.y, Location.z));
         if (Platforms.Count > 0)
         {
             // Create new platforms
