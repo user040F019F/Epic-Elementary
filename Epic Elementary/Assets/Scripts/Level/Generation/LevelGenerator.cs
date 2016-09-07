@@ -5,73 +5,91 @@ using System;
 using System.Linq;
 
 public class LevelGenerator : MonoBehaviour {
-
-    [SerializeField]
-    private GameObject Prefab;
-
-    [SerializeField]
-    private GameObject Sky;
-
-    [SerializeField]
-    private GameObject Underground;
-
-    [SerializeField]
-    private GameObject FrontDecor;
-
-    [SerializeField]
-    private int pitDepth;
-
-    [SerializeField]
-    private Vector3 Location;
-
+    
+    // To be calculated off of level.
     public float LevelLength;
     public int nMaxPlatforms;
     public int nMinPlatforms;
+
+    // To be calculated by character jump distance.
     public int minDistance;
     public int maxDistance;
-    float[] pSizes, gSizes;
 
-    private Vector3 ViewportLocation;
+    // Generated Prefabs
+    [SerializeField]
+    private GameObject Prefab;
 
+    //Static GameObjects
+    [SerializeField]
+    private GameObject Sky;
+    [SerializeField]
+    private GameObject Underground;
+
+    // Generator Options
+    [SerializeField]
+    private int pitDepth;
+    [SerializeField]
+    private Vector3 Location;
+
+    // Management
     [HideInInspector]
     public static volatile List<GameObject> Platforms = new List<GameObject>();
-
     private int cPlatform = 0;
-    private Vector3 cOrigin;
 
-	// Use this for initialization
-	void Start () {
+    // External Data
+    public static volatile int PlayerBound;
+    
+    // Calculation tools
+    private System.Random rnd;
+    private Vector3 cOrigin;
+    float[] pSizes, gSizes;
+    private Vector3 cViewport;
+
+    // Use this for initialization
+    void Start () {
+        // Set base helpers
+        rnd = new System.Random();
         pitDepth = Math.Abs(pitDepth);
         cOrigin = Camera.main.ViewportToWorldPoint(Location);
-        //cOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0,.5f,10f));
+
+        // Calculate random platform and gap sizes based on parameters
         pSizes = getPlatformSizes();
-        gSizes = getGapSizes(pSizes.Length);
+        gSizes = getGapSizes();
+
+        // Adjust level length to include gaps
         LevelLength += gSizes.Sum();
         RenderUnderground();
         RenderSky();
         Generate();
 	}
 
+    // Generate ground container
     private void RenderUnderground()
     {
         Underground.transform.position = cOrigin;
         Underground.transform.localScale = new Vector3(LevelLength, pitDepth, Location.z);
     }
 
+    // Generate backdrop
     private void RenderSky()
     {
-        Vector3 YScale = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 10f));
+        Vector3 cTViewport = Camera.main.ViewportToWorldPoint(new Vector3(Location.x, 1, Location.z));
         Sky.transform.position = cOrigin;
-        Sky.transform.localScale = new Vector3(LevelLength, YScale.y-cOrigin.y,1);
+        Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, 1);
     }
 
+    // Generate new platform
     private void RenderPlatform()
     {
         GameObject Platform = Instantiate(Prefab);
+
+        // Set transforms
         Platform.transform.localScale = new Vector3(pSizes[cPlatform], pitDepth, Location.z);
         Platform.transform.position = cOrigin;
         Platform.transform.parent = GameObject.Find("Level").transform;
         Platforms.Add(Platform);
+
+        // Adjust origin for next platform
 		cOrigin.x += pSizes [cPlatform];
 		if (cPlatform < gSizes.Length)
 			cOrigin.x += gSizes [cPlatform];
@@ -80,17 +98,20 @@ public class LevelGenerator : MonoBehaviour {
 
     private void Update()
     {
-        ViewportLocation = Camera.main.ViewportToWorldPoint(Location);
-        Vector3 RightViewportLocation = Camera.main.ViewportToWorldPoint(new Vector3(1, Location.y, Location.z));
+        // Get new viewport coordinates
+        cViewport = Camera.main.ViewportToWorldPoint(Location);
+        Vector3 cRViewport = Camera.main.ViewportToWorldPoint(new Vector3(1, Location.y, Location.z));
+
+        // Avoid indexing errors
         if (Platforms.Count > 0)
         {
             // Create new platforms
-            if (RightViewportLocation.x > cOrigin.x)
+            if (cRViewport.x > cOrigin.x)
                 Generate();
 
             // Destroy old platforms
             GameObject Platform = Platforms.First();
-            if (ViewportLocation.x > Platform.transform.position.x + Platform.transform.localScale.x)
+            if (cViewport.x > Platform.transform.position.x + Platform.transform.localScale.x)
             {
                 Platforms.Remove(Platform);
                 Destroy(Platform);
@@ -98,6 +119,7 @@ public class LevelGenerator : MonoBehaviour {
         }
     }
 
+    // Check to see if final platform has already been rendered
     private void Generate()
     {
         if (cPlatform < pSizes.Length)
@@ -106,19 +128,19 @@ public class LevelGenerator : MonoBehaviour {
         }
     }
 
-    private float[] getGapSizes(int pSizes)
+    // Set random gap sizes based on player jump distance
+    private float[] getGapSizes()
     {
-        float[] gSizes = new float[pSizes - 1];
-        System.Random rnd = new System.Random();
+        float[] gSizes = new float[pSizes.Length - 1];
         for (int i = 0; i < gSizes.Length; i++)
             gSizes[i] = rnd.Next(minDistance, maxDistance);
         return gSizes;
     }
 
+    // Set random platform sizes to add up to level length
     private float[] getPlatformSizes()
     {
         List<float> pSizes = new List<float>();
-        System.Random rnd = new System.Random();
         int nPlatforms = rnd.Next(nMinPlatforms, nMaxPlatforms);
         for (int i = 0; i < nPlatforms; i++)
             pSizes.Add(rnd.Next(1, (int)LevelLength));
