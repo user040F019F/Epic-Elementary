@@ -4,19 +4,31 @@ using System.Collections;
 public class FollowPlayer : MonoBehaviour {
 
     // Left lead from player
-    public int Offset;
+    public Vector3 Offset;
 
     // Required Player Object
     [SerializeField]
     private GameObject Player;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    // Allow updates after start
+    private static bool enabled = false;
+
+    // Helpers
+    private Vector3 CtpLocation;
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if(LevelGenerator.isComplete)
+        {
+            if (transform.position.x < Player.transform.position.x + Offset.x)
+                transform.position = new Vector3(Player.transform.position.x + Offset.x, transform.position.y, transform.position.z);
+            /*
+            CtpLocation = gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, Player.transform.position.y, Player.transform.position.z));
+            if (Player.transform.position.x - CtpLocation.x > Offset)
+            {
+                gameObject.transform.position = new Vector3(Player.transform.position.x - Offset, gameObject.transform.position.y, gameObject.transform.position.z);
+            }
+            */
+        }
 	}
 }

@@ -5,7 +5,10 @@ using System;
 using System.Linq;
 
 public class LevelGenerator : MonoBehaviour {
-    
+
+    // Notifier
+    public static bool isComplete = false;
+
     // To be calculated off of level.
     public float LevelLength;
     public int nMaxPlatforms;
@@ -38,8 +41,9 @@ public class LevelGenerator : MonoBehaviour {
 
     // External Data
     public static volatile int PlayerBound;
-    
+
     // Calculation tools
+    private static float offset;
     private System.Random rnd;
     private Vector3 cOrigin;
     float[] pSizes, gSizes;
@@ -51,16 +55,18 @@ public class LevelGenerator : MonoBehaviour {
         rnd = new System.Random();
         pitDepth = Math.Abs(pitDepth);
         cOrigin = Camera.main.ViewportToWorldPoint(Location);
+        offset = Camera.main.GetComponent<FollowPlayer>().Offset.x;
 
         // Calculate random platform and gap sizes based on parameters
         pSizes = getPlatformSizes();
         gSizes = getGapSizes();
 
-        // Adjust level length to include gaps
-        LevelLength += gSizes.Sum();
+        // Adjust level length to include gaps and offset
+        LevelLength = pSizes.Sum() + gSizes.Sum();
         RenderUnderground();
         RenderSky();
         Generate();
+        isComplete = true;
 	}
 
     // Generate ground container
@@ -99,7 +105,7 @@ public class LevelGenerator : MonoBehaviour {
     private void Update()
     {
         // Get new viewport coordinates
-        cViewport = Camera.main.ViewportToWorldPoint(Location);
+        cViewport = Camera.main.ViewportToWorldPoint(new Vector3(0, Location.y, Location.z));
         Vector3 cRViewport = Camera.main.ViewportToWorldPoint(new Vector3(1, Location.y, Location.z));
 
         // Avoid indexing errors
@@ -147,6 +153,9 @@ public class LevelGenerator : MonoBehaviour {
         float denom = pSizes.Sum() / LevelLength;
         for (int i = 0; i < pSizes.Count; i++)
             pSizes[i] /= denom;
+        // Adjust for Camera offset
+        pSizes[0] += offset;
+        pSizes[pSizes.Count-1] += offset;
         return pSizes.ToArray();
     }
 }
