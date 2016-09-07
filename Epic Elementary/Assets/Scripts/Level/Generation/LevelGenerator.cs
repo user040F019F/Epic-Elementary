@@ -75,7 +75,7 @@ public class LevelGenerator : MonoBehaviour {
     {
         Vector3 cTViewport = Camera.main.ViewportToWorldPoint(new Vector3(Location.x, 1, Location.z));
         Sky.transform.position = cOrigin;
-        Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, 1);
+        Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, Location.z);
     }
 
     // Generate new platform
