@@ -75,6 +75,8 @@
     <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Title\ChalkSound.cs" />
+    <Compile Include="Assets\Scripts\Title\HighlightButton.cs" />
+    <Compile Include="Assets\Scripts\Title\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Title\Painting.cs" />
     <Compile Include="Assets\Scripts\Title\ThudSoundTrim.cs" />
   </ItemGroup>
