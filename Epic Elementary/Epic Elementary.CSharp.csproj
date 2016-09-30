@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ActorController.cs" />
     <Compile Include="Assets\Scripts\Generic\Pivoter.cs" />
     <Compile Include="Assets\Scripts\Level\Actor\ActorManager.cs" />
     <Compile Include="Assets\Scripts\Level\Actor\PlayerManager.cs" />
