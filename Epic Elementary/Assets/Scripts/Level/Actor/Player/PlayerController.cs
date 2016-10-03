@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		ActorController.Move(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+
         if (Input.GetMouseButtonDown(0)) // Left click: Throw
         {
             System.Random rnd = new System.Random();
