@@ -1,11 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level\Actor\Player\PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level\Actor\ActorController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Level\Actor\AnimationEventController.cs" Line="20" Column="53" />
+      <File FileName="Assets\Scripts\Level\Actor\AnimationEventController.cs" Line="20" Column="1" />
       <File FileName="Assets\Scripts\Level\Camera\FollowPlayer.cs" Line="22" Column="10" />
-      <File FileName="Assets\Scripts\Level\Actor\ActorController.cs" Line="66" Column="23" />
-      <File FileName="Assets\Scripts\Level\Actor\Player\PlayerController.cs" Line="16" Column="5" />
+      <File FileName="Assets\Scripts\Level\Actor\ActorController.cs" Line="29" Column="3" />
+      <File FileName="Assets\Scripts\Level\Actor\Player\PlayerController.cs" Line="10" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

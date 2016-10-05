@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ActorController : MonoBehaviour {
 
-    public static Vector3 ThrowDestination = Vector3.zero;
-    private static Animator Animator;
+    public Vector3 ThrowDestination = Vector3.zero;
+    private Animator Animator;
 	private CharacterController Character;
 	private Rigidbody RB;
 
@@ -25,6 +25,7 @@ public class ActorController : MonoBehaviour {
         Animator = gameObject.GetComponent<Animator>();
 		RB = gameObject.GetComponent<Rigidbody> ();
 		Character = gameObject.GetComponent<CharacterController> ();
+		fromRagdoll ();
 	}
 	
 	// Update is called once per frame
@@ -66,8 +67,21 @@ public class ActorController : MonoBehaviour {
 	public void toRagdoll () {
 		foreach (Rigidbody RigidBody in gameObject.GetComponentsInChildren<Rigidbody>()) {
 			RigidBody.isKinematic = false;
+			RigidBody.detectCollisions = true;
 		}
+		gameObject.GetComponent<Rigidbody> ().detectCollisions = false;
+		gameObject.GetComponent<Rigidbody> ().isKinematic = true;
 		Animator.enabled = false;
+	}
+
+	public void fromRagdoll () {
+		foreach (Rigidbody RigidBody in gameObject.GetComponentsInChildren<Rigidbody>()) {
+			RigidBody.isKinematic = true;
+			RigidBody.detectCollisions = false;
+		}
+		gameObject.GetComponent<Rigidbody> ().detectCollisions = true;
+		gameObject.GetComponent<Rigidbody> ().isKinematic = false;
+		Animator.enabled = true;
 	}
 
 	// Helper function for running finalization
