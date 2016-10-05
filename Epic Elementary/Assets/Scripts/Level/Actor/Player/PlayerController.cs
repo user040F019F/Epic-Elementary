@@ -12,7 +12,20 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		ActorController.Move(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+
+		//ActorController.toRagdoll ();
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			ActorController.Jump ();
+		}
+
+		Vector3 Movement = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical")); // Get WASD
+
+		if (Input.GetKey (KeyCode.LeftShift)) { // Left Shift: Run
+			ActorController.Run (Movement);
+		} else {
+			ActorController.Move (Movement); // Continuously update movement
+		}
 
         if (Input.GetMouseButtonDown(0)) // Left click: Throw
         {
