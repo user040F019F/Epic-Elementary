@@ -14,9 +14,10 @@ public class ActorController : MonoBehaviour {
 		RunningSpeed = 8f,
 		Multiplier = 2f,
 		MinSpeed = .01f,
-		RotationSpeed = 1f;
+		RotationSpeed = 1f,
+        JumpHeight = 5f;
 
-	private bool Jumping;
+	private bool Jumping = false, JumpNow = false;
 
 	private Vector3 Velocity = Vector3.zero;
 
@@ -30,16 +31,21 @@ public class ActorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Jumping = Animator.GetBool ("Jump")) {
-			// Check to see if character is grounded.
-			if (isGrounded ()) {
-				Animator.SetBool ("Jump", false);
-			}
-		}
 	}
 
+    void LateUpdate()
+    {
+        if (Jumping = Animator.GetBool("Jump"));
+        {
+            if (isGrounded())
+            {
+                Animator.SetBool("Jump", false);
+                Jumping = false;
+            }
+        }
+    }
+
 	private bool isGrounded() {
-		/*
 		RaycastHit hit;
 		float checkDistance = gameObject.GetComponent<Collider> ().bounds.extents.y + .1f;
 		if(Physics.Raycast (gameObject.transform.position, Vector3.down, out hit, checkDistance)) {
@@ -48,12 +54,15 @@ public class ActorController : MonoBehaviour {
 			}
 		}
 		return false;
-		*/
-		return true;
 	}
 
+    // Set jump variable for update to pick up
 	public void Jump () {
-		Animator.SetBool ("Jump", true);
+        if (isGrounded())
+        {
+            RB.velocity += new Vector3(0, JumpHeight, 0);
+            Animator.SetBool("Jump", true);
+        }
 	}
 
 	// Provide running abilities
@@ -96,20 +105,23 @@ public class ActorController : MonoBehaviour {
 	}
 
 	// Move player under regular circumstances
-	public void Move (Vector3 Movement) {
-		if (Movement.magnitude > MinSpeed) {
-			if (!Jumping) {
-				Velocity = Movement * Multiplier;
+	public void Move (Vector3 Movement)
+    {
+        if (Movement.magnitude > MinSpeed)
+        {
+            if (!Jumping)
+            {
+                Velocity = Movement * Multiplier;
 				if (Velocity.magnitude > MaxJoggingSpeed) {
 					Velocity.Normalize ();
 					Velocity *= MaxJoggingSpeed;
 				}
 			}
 			Finalize (Movement);
-		}
-		Animator.SetFloat ("Speed", Movement.magnitude);
-		Animator.SetBool ("Running", false);
-	}
+        }
+        Animator.SetFloat("Speed", Movement.magnitude);
+        Animator.SetBool("Running", false);
+    }
 
 	// Throw
     public void Throw (Vector3 Destination)

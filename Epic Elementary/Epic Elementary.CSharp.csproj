@@ -63,12 +63,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ActorController.cs" />
-    <Compile Include="Assets\AnimationEventController.cs" />
-    <Compile Include="Assets\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Generic\Pivoter.cs" />
-    <Compile Include="Assets\Scripts\Level\Actor\ActorManager.cs" />
-    <Compile Include="Assets\Scripts\Level\Actor\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Level\Actor\ActorController.cs" />
+    <Compile Include="Assets\Scripts\Level\Actor\AnimationEventController.cs" />
+    <Compile Include="Assets\Scripts\Level\Actor\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Title\ChalkSound.cs" />
