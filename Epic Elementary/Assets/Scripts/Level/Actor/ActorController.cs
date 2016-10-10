@@ -16,7 +16,7 @@ public class ActorController : MonoBehaviour {
 		RotationSpeed = 1f,
         JumpHeight = 5f;
 
-	private bool Jumping = false, Dead = false;
+	public bool Jumping, Dead;
 
 	private Vector3 Velocity = Vector3.zero;
 
@@ -29,6 +29,9 @@ public class ActorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        Debug.Log(Dead);
+
 	}
 
     void LateUpdate()
@@ -51,10 +54,13 @@ public class ActorController : MonoBehaviour {
 
 	public void Die() {
 		Dead = true;
+
+        Debug.Log("player death");
+
 		this.toRagdoll ();
 	}
 
-	private bool isGrounded() {
+	public bool isGrounded() {
 		RaycastHit hit;
 		float checkDistance = gameObject.GetComponent<Collider> ().bounds.extents.y + .1f;
 		if(Physics.Raycast (gameObject.transform.position, Vector3.down, out hit, checkDistance)) {
