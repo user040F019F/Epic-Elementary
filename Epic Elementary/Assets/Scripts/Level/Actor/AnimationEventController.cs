@@ -17,6 +17,6 @@ public class AnimationEventController : MonoBehaviour {
 
     void ThrowObject()
     {
-        Debug.Log(ActorController.ThrowDestination);
+		//Throw object
     }
 }

@@ -13,10 +13,17 @@ public class LevelGenerator : MonoBehaviour {
     public float LevelLength;
     public int nMaxPlatforms;
     public int nMinPlatforms;
+	public int nMinPlatformSize;
 
     // To be calculated by character jump distance.
     public int minDistance;
     public int maxDistance;
+	public float startFall = .1f;
+	public float offset;
+	public float EndOffset = 10f;
+	public float playerBoundBack = 3f;
+	public float playerBoundFront = 3f;
+	public static float BackBound = 3f, FrontBound = 3f;
 
     // Generated Prefabs
     [SerializeField]
@@ -26,7 +33,11 @@ public class LevelGenerator : MonoBehaviour {
     [SerializeField]
     private GameObject Sky;
     [SerializeField]
-    private GameObject Underground;
+	private GameObject Underground;
+	[SerializeField]
+	private GameObject FallCollider;
+	[SerializeField]
+	private GameObject Player;
 
     // Generator Options
     [SerializeField]
@@ -36,18 +47,20 @@ public class LevelGenerator : MonoBehaviour {
 
     // Management
     [HideInInspector]
-    public static volatile List<GameObject> Platforms = new List<GameObject>();
+	public static volatile List<GameObject> Platforms = new List<GameObject>();
+	[HideInInspector]
+	public Rect PlayerBounds;
     private int cPlatform = 0;
 
     // External Data
     public static volatile int PlayerBound;
 
     // Calculation tools
-    private static float offset;
     private System.Random rnd;
     private Vector3 cOrigin;
     float[] pSizes, gSizes;
     private Vector3 cViewport;
+	private float EndScroll = 10f;
 
     // Use this for initialization
     void Start () {
@@ -55,7 +68,6 @@ public class LevelGenerator : MonoBehaviour {
         rnd = new System.Random();
         pitDepth = Math.Abs(pitDepth);
         cOrigin = Camera.main.ViewportToWorldPoint(Location);
-        offset = Camera.main.GetComponent<FollowPlayer>().Offset.x;
 
         // Calculate random platform and gap sizes based on parameters
         pSizes = getPlatformSizes();
@@ -65,8 +77,50 @@ public class LevelGenerator : MonoBehaviour {
         LevelLength = pSizes.Sum() + gSizes.Sum();
         RenderUnderground();
         RenderSky();
-        Generate();
-        isComplete = true;
+		RenderFallCollider ();
+		Generate();
+		setPlayerBounds ();
+		setPlayer ();
+		EndScroll = cOrigin.x + LevelLength - EndOffset;
+		isComplete = true;
+
+	}
+
+	private void Update()
+	{
+		// Get new viewport coordinates
+		cViewport = Camera.main.ViewportToWorldPoint(new Vector3(0, Location.y, Location.z));
+		Vector3 cRViewport = Camera.main.ViewportToWorldPoint(new Vector3(1, Location.y, Location.z));
+
+		if (cRViewport.x > EndScroll) {
+			Camera.main.GetComponent<FollowPlayer> ().enabled = false;
+		}
+
+		// Avoid indexing errors
+		if (Platforms.Count > 0)
+		{
+			// Create new platforms
+			if (cRViewport.x > cOrigin.x)
+				Generate();
+
+			// Destroy old platforms
+			GameObject Platform = Platforms.First();
+			if (cViewport.x > Platform.transform.position.x + Platform.transform.localScale.x)
+			{
+				Platforms.Remove(Platform);
+				Destroy(Platform);
+			}
+		}
+	}
+
+	private void setPlayerBounds() {
+		BackBound = -playerBoundBack;
+		FrontBound = -Location.z + playerBoundFront;
+	}
+
+	// Set Player
+	private void setPlayer() {
+		Player.transform.position = new Vector3 (cOrigin.x - (offset ), cOrigin.y, -Location.z / 2);
 	}
 
     // Generate ground container
@@ -84,6 +138,11 @@ public class LevelGenerator : MonoBehaviour {
         Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, Location.z);
     }
 
+	private void RenderFallCollider() {
+		FallCollider.transform.position = new Vector3(cOrigin.x, cOrigin.y - startFall, cOrigin.z);
+		FallCollider.transform.localScale = new Vector3(LevelLength, pitDepth - startFall, Location.z);
+	}
+
     // Generate new platform
     private void RenderPlatform()
     {
@@ -100,29 +159,6 @@ public class LevelGenerator : MonoBehaviour {
 		if (cPlatform < gSizes.Length)
 			cOrigin.x += gSizes [cPlatform];
         cPlatform++;
-    }
-
-    private void Update()
-    {
-        // Get new viewport coordinates
-        cViewport = Camera.main.ViewportToWorldPoint(new Vector3(0, Location.y, Location.z));
-        Vector3 cRViewport = Camera.main.ViewportToWorldPoint(new Vector3(1, Location.y, Location.z));
-
-        // Avoid indexing errors
-        if (Platforms.Count > 0)
-        {
-            // Create new platforms
-            if (cRViewport.x > cOrigin.x)
-                Generate();
-
-            // Destroy old platforms
-            GameObject Platform = Platforms.First();
-            if (cViewport.x > Platform.transform.position.x + Platform.transform.localScale.x)
-            {
-                Platforms.Remove(Platform);
-                Destroy(Platform);
-            }
-        }
     }
 
     // Check to see if final platform has already been rendered
@@ -149,13 +185,17 @@ public class LevelGenerator : MonoBehaviour {
         List<float> pSizes = new List<float>();
         int nPlatforms = rnd.Next(nMinPlatforms, nMaxPlatforms);
         for (int i = 0; i < nPlatforms; i++)
-            pSizes.Add(rnd.Next(1, (int)LevelLength));
+			pSizes.Add(rnd.Next(1, (int)LevelLength));
         float denom = pSizes.Sum() / LevelLength;
-        for (int i = 0; i < pSizes.Count; i++)
-            pSizes[i] /= denom;
+		for (int i = 0; i < pSizes.Count; i++) {
+			pSizes [i] /= denom;
+			if (pSizes [i] <= nMinPlatformSize) {
+				pSizes [i] = nMinPlatformSize;
+			}
+		}
         // Adjust for Camera offset
-        pSizes[0] += offset;
-        pSizes[pSizes.Count-1] += offset;
+        pSizes[0] = offset;
+        pSizes[pSizes.Count-1] = offset;
         return pSizes.ToArray();
     }
 }
