@@ -147,9 +147,8 @@ public class ActorController : MonoBehaviour {
 			if (!Jumping) {
 				ThrowDestination = Destination;
 				Animator.SetTrigger ("Throw");
+
 			}
 		}
-
-        Debug.Log("Attacked");
     }
 }

@@ -26,25 +26,14 @@ public class SoundEffectsManager : MonoBehaviour {
     // check name of string (effect) and play clip
 	void Update () {
 
-        
-
-        if (effect == "attack") {
-
-            if (Input.GetMouseButtonDown(0) && playerAnimator.GetBool("Throw") == true && timeStamp <= Time.time) {
-
-                // temp cooldwon fix
-                timeStamp = Time.time + coolDownInSeconds;
-
-                clip.Play();
-
-            }
-        }
 
         if (effect == "jump") {
                                       // check is grounded to ensure no jump sound on random "spacebar press" || cooldown
             if (Input.GetKeyDown(KeyCode.Space) && actor.isGrounded() == true) {
 
                 clip.Play();
+
+
 
             }
         }
