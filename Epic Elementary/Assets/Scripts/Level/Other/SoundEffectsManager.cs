@@ -5,25 +5,35 @@ public class SoundEffectsManager : MonoBehaviour {
 
     private AudioSource clip;
     private ActorController actor;
+    private Animator playerAnimator;
 
     public string effect;
 
     // for "play once only" effects
     private bool hasPlayed = false;
+    // 1 sec cooldown
+    private float coolDownInSeconds = 1f;
+    private float timeStamp;
 
 
 	void Start () {
         clip = this.GetComponent<AudioSource>();
         actor = GameObject.FindGameObjectWithTag("Actor").GetComponent<ActorController>();
+        playerAnimator = GameObject.FindGameObjectWithTag("Actor").GetComponent<Animator>();
 	}
 	
 	
     // check name of string (effect) and play clip
 	void Update () {
 
+        
+
         if (effect == "attack") {
 
-            if (Input.GetMouseButtonDown(0)) {
+            if (Input.GetMouseButtonDown(0) && playerAnimator.GetBool("Throw") == true && timeStamp <= Time.time) {
+
+                // temp cooldwon fix
+                timeStamp = Time.time + coolDownInSeconds;
 
                 clip.Play();
 

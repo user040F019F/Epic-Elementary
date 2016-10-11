@@ -30,7 +30,6 @@ public class ActorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Debug.Log(Dead);
 
 	}
 
@@ -150,5 +149,7 @@ public class ActorController : MonoBehaviour {
 				Animator.SetTrigger ("Throw");
 			}
 		}
+
+        Debug.Log("Attacked");
     }
 }
