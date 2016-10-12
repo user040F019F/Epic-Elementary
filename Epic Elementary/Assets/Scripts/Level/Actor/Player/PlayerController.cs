@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
 
     public float CameraPadding = .1f;
 
+    public bool disableAttack = false;
+
+
 	// Use this for initialization
 	void Start () {
 		ActorController = gameObject.GetComponent<ActorController>();
@@ -39,8 +42,10 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0)) // Left click: Throw
         {
-            System.Random rnd = new System.Random();
-            ActorController.Throw(new Vector3((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble()));
+            if (disableAttack == false) {
+                System.Random rnd = new System.Random();
+                ActorController.Throw(new Vector3((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble()));
+            }
         }
     }
 }

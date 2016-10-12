@@ -74,8 +74,10 @@
     <Compile Include="Assets\Scripts\Level\Actor\AnimationEventController.cs" />
     <Compile Include="Assets\Scripts\Level\Actor\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer_LevelSelect.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\OnFall.cs" />
+    <Compile Include="Assets\Scripts\Level\Other\PlayerDisable.cs" />
     <Compile Include="Assets\Scripts\Level\Other\SoundEffectsManager.cs" />
     <Compile Include="Assets\Scripts\Title\ChalkSound.cs" />
     <Compile Include="Assets\Scripts\Title\HighlightButton.cs" />
