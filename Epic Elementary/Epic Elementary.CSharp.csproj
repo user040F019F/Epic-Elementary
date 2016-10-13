@@ -86,5 +86,9 @@
     <Compile Include="Assets\Scripts\Title\Painting.cs" />
     <Compile Include="Assets\Scripts\Title\ThudSoundTrim.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Art\Locker\Shaders\VIS_BumpSpec.shader" />
+    <None Include="Assets\Prefabs\Materials\PBS Materials Variety Pack\readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
