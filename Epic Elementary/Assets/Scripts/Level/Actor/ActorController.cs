@@ -7,6 +7,9 @@ public class ActorController : MonoBehaviour {
     private Animator Animator;
 	private Rigidbody RB;
 
+	[Range(0f,80f)]
+	public float ThrowAngle = 45f;
+
 	// Restrictions
 	[SerializeField]
 	private float MaxJoggingSpeed = 5f,

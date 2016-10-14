@@ -50,13 +50,20 @@
      <Compile Include="Assets\Scripts\Level\Actor\AnimationEventController.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\Player\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer.cs" />
+     <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer_LevelSelect.cs" />
      <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
      <Compile Include="Assets\Scripts\Level\Generation\OnFall.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelSelection\Outside.cs" />
+     <Compile Include="Assets\Scripts\Level\Other\PlayerDisable.cs" />
+     <Compile Include="Assets\Scripts\Level\Other\SoundEffectsManager.cs" />
      <Compile Include="Assets\Scripts\Title\ChalkSound.cs" />
      <Compile Include="Assets\Scripts\Title\HighlightButton.cs" />
      <Compile Include="Assets\Scripts\Title\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Title\Painting.cs" />
      <Compile Include="Assets\Scripts\Title\ThudSoundTrim.cs" />
+     <Compile Include="Assets\WeaponManager.cs" />
+     <None Include="Assets\Art\Locker\Shaders\VIS_BumpSpec.shader" />
+     <None Include="Assets\Prefabs\Materials\PBS Materials Variety Pack\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

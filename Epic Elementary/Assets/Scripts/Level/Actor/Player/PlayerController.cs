@@ -42,10 +42,11 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0)) // Left click: Throw
         {
-            if (disableAttack == false) {
-                System.Random rnd = new System.Random();
-                ActorController.Throw(new Vector3((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble()));
-            }
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit, 100)) {
+				ActorController.Throw (hit.point);
+			}
         }
     }
 }
