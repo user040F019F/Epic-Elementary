@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     public bool disableAttack = false;
 
 
+
 	// Use this for initialization
 	void Start () {
 		ActorController = gameObject.GetComponent<ActorController>();
