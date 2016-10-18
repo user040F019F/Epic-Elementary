@@ -39,6 +39,14 @@ public class LevelGenerator : MonoBehaviour {
 	[SerializeField]
 	private GameObject Player;
 
+    // Static Materials
+    [SerializeField]
+    private Material[] GroundTextures;
+    [SerializeField]
+    private Material[] UndergroundTextures;
+    [SerializeField]
+    private Material[] BackdropTextures;
+
     // Generator Options
     [SerializeField]
     private int pitDepth;
@@ -126,6 +134,11 @@ public class LevelGenerator : MonoBehaviour {
     // Generate ground container
     private void RenderUnderground()
     {
+        MeshRenderer Back = Underground.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
+        MeshRenderer Bottom = Underground.transform.Find("ExpandablePlane/Bottom").gameObject.GetComponent<MeshRenderer>();
+        Back.material = Bottom.material = UndergroundTextures[0];
+        Back.material.mainTextureScale = Bottom.material.mainTextureScale = new Vector2(100, .5f);
+
         Underground.transform.position = cOrigin;
         Underground.transform.localScale = new Vector3(LevelLength, pitDepth, Location.z);
     }
@@ -134,6 +147,11 @@ public class LevelGenerator : MonoBehaviour {
     private void RenderSky()
     {
         Vector3 cTViewport = Camera.main.ViewportToWorldPoint(new Vector3(Location.x, 1, Location.z));
+
+        MeshRenderer Back = Sky.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
+        Back.material = BackdropTextures[0];
+        Back.material.mainTextureScale = new Vector2(20, 10);
+
         Sky.transform.position = cOrigin;
         Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, Location.z);
     }
@@ -153,9 +171,16 @@ public class LevelGenerator : MonoBehaviour {
         Platform.transform.position = cOrigin;
         Platform.transform.parent = GameObject.Find("Level").transform;
         Platforms.Add(Platform);
+        
+        MeshRenderer Top = Platform.transform.Find("ExpandablePlane/Top").gameObject.GetComponent<MeshRenderer>();
+        MeshRenderer Left = Platform.transform.Find("ExpandablePlane/Left").gameObject.GetComponent<MeshRenderer>();
+        MeshRenderer Right = Platform.transform.Find("ExpandablePlane/Right").gameObject.GetComponent<MeshRenderer>();
+        Top.material = GroundTextures[0];
+        Left.material = Right.material = UndergroundTextures[0];
+        Top.material.mainTextureScale = Left.material.mainTextureScale = Right.material.mainTextureScale = new Vector2(10, 10);
 
         // Adjust origin for next platform
-		cOrigin.x += pSizes [cPlatform];
+        cOrigin.x += pSizes [cPlatform];
 		if (cPlatform < gSizes.Length)
 			cOrigin.x += gSizes [cPlatform];
         cPlatform++;
