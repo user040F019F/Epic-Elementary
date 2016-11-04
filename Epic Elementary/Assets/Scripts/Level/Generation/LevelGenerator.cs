@@ -46,6 +46,8 @@ public class LevelGenerator : MonoBehaviour {
     private Material[] UndergroundTextures;
     [SerializeField]
     private Material[] BackdropTextures;
+    [SerializeField]
+    private Vector2[] GroundTiling, UndergroundTiling, BackdropTiling;
 
     // Generator Options
     [SerializeField]
@@ -137,23 +139,53 @@ public class LevelGenerator : MonoBehaviour {
         MeshRenderer Back = Underground.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
         MeshRenderer Bottom = Underground.transform.Find("ExpandablePlane/Bottom").gameObject.GetComponent<MeshRenderer>();
         Back.material = Bottom.material = UndergroundTextures[0];
-        Back.material.mainTextureScale = Bottom.material.mainTextureScale = new Vector2(100, .5f);
 
         Underground.transform.position = cOrigin;
         Underground.transform.localScale = new Vector3(LevelLength, pitDepth, Location.z);
+        Back.material.mainTextureScale = Underground.transform.localScale;
+        Bottom.material.mainTextureScale = new Vector2(Underground.transform.localScale.x, Underground.transform.localScale.z);
     }
 
     // Generate backdrop
     private void RenderSky()
     {
         Vector3 cTViewport = Camera.main.ViewportToWorldPoint(new Vector3(Location.x, 1, Location.z));
-
-        MeshRenderer Back = Sky.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
-        Back.material = BackdropTextures[0];
-        Back.material.mainTextureScale = new Vector2(20, 10);
+        bool StretchY = false;
 
         Sky.transform.position = cOrigin;
         Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, Location.z);
+
+        MeshRenderer Back = Sky.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
+        Vector2 start = Camera.main.WorldToScreenPoint(Sky.transform.position);
+        Vector2 end = Camera.main.WorldToScreenPoint(Sky.transform.position + Sky.transform.localScale);
+
+        Texture texture = BackdropTextures[0].GetTexture("_MainTex");
+
+        Vector2 planesize = Sky.transform.lossyScale;
+        float TextureToMeshX = ((float)texture.width / texture.height) * 2f;
+
+        int Width = (int)(end.x - start.x);
+        int Height = (int)(end.y - start.y);
+        Back.material = BackdropTextures[0];
+        Back.material.mainTextureScale = Sky.transform.localScale;
+
+
+
+
+        //  Back.material = BackdropTextures[0];
+
+
+        Debug.Log("TEX: " + Back.material.GetTexture("_MainTex").width);
+        Debug.Log("W: " + start);
+        Debug.Log("H: " + end);
+        Width = ((Width / Back.material.GetTexture("_MainTex").width) * 100);
+        //Back.material.mainTextureScale = new Vector2(Width, 5);
+        Debug.Log("W: " + Width);
+        Debug.Log("H: " + Height);
+        /*
+        if (StretchY) Back.material.mainTextureScale = new Vector2(Width / Back.material.GetTexture("_MainTex").width, 1);
+        else Back.material.mainTextureScale = new Vector2(Width / Back.material.GetTexture("_MainTex").width, Height / Back.material.GetTexture("_MainTex").height);
+        */
     }
 
 	private void RenderFallCollider() {
@@ -177,7 +209,8 @@ public class LevelGenerator : MonoBehaviour {
         MeshRenderer Right = Platform.transform.Find("ExpandablePlane/Right").gameObject.GetComponent<MeshRenderer>();
         Top.material = GroundTextures[0];
         Left.material = Right.material = UndergroundTextures[0];
-        Top.material.mainTextureScale = Left.material.mainTextureScale = Right.material.mainTextureScale = new Vector2(10, 10);
+        Top.material.mainTextureScale = new Vector2(Platform.transform.localScale.x, Platform.transform.localScale.z);
+        Left.material.mainTextureScale = Right.material.mainTextureScale = new Vector2(Platform.transform.localScale.y, Platform.transform.localScale.z);
 
         // Adjust origin for next platform
         cOrigin.x += pSizes [cPlatform];
