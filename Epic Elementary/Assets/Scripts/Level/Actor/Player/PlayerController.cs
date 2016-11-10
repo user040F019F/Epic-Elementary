@@ -9,7 +9,15 @@ public class PlayerController : MonoBehaviour {
 
     public bool disableAttack = false;
 
+	[SerializeField]
+	private Stat health;
 
+
+	private void Awake() {
+
+		health.Initialize ();
+	}
+		
 
 	// Use this for initialization
 	void Start () {
@@ -49,5 +57,13 @@ public class PlayerController : MonoBehaviour {
 				ActorController.Throw (hit.point);
 			}
         }
+
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			health.CurrentVal -= 10;
+		}
+
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			health.CurrentVal += 10;
+		}
     }
 }
