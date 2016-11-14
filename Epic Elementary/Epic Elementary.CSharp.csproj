@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -76,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Generic\Pivoter.cs" />
+    <Compile Include="Assets\Scripts\Global Control\GlobalControl.cs" />
+    <Compile Include="Assets\Scripts\Global Control\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Level\Actor\ActorController.cs" />
     <Compile Include="Assets\Scripts\Level\Actor\AnimationEventController.cs" />
     <Compile Include="Assets\Scripts\Level\Actor\Player\PlayerController.cs" />
@@ -83,6 +79,8 @@
     <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer_LevelSelect.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\OnFall.cs" />
+    <Compile Include="Assets\Scripts\Level\HealthBar\BarScript.cs" />
+    <Compile Include="Assets\Scripts\Level\HealthBar\Stat.cs" />
     <Compile Include="Assets\Scripts\Level\LevelSelection\Outside.cs" />
     <Compile Include="Assets\Scripts\Level\LevelSelection\TriggerBox.cs" />
     <Compile Include="Assets\Scripts\Level\Other\PlayerDisable.cs" />

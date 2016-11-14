@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour {
     public bool disableAttack = false;
 
 	[SerializeField]
-	private Stat health;
+	public Stat health;
+
+    GlobalControl globalControl;
 
 
 	private void Awake() {
@@ -22,6 +24,8 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ActorController = gameObject.GetComponent<ActorController>();
+        globalControl = GameObject.FindGameObjectWithTag("GlobalControl").GetComponent<GlobalControl>();
+        health.currentVal = globalControl.health;
 	}
 	
 	// Update is called once per frame
@@ -58,6 +62,12 @@ public class PlayerController : MonoBehaviour {
 			}
         }
 
+
+
+
+
+        // health testing
+        
 		if (Input.GetKeyDown (KeyCode.Z)) {
 			health.CurrentVal -= 10;
 		}

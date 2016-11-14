@@ -11,8 +11,10 @@ public class Stat {
 	[SerializeField]
 	private float maxVal;
 
-	[SerializeField]
-	private float currentVal;
+	public float currentVal;
+
+    public PlayerState playerState;
+
 
 	public float CurrentVal {
 
