@@ -11,4 +11,6 @@ public class TexturePack {
         Sides;
     public Material[]
         Enemies;
+    public GameObject[]
+        Obstacles;
 }
