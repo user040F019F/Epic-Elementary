@@ -9,22 +9,22 @@ public class PlayerController : MonoBehaviour {
 
     public bool disableAttack = false;
 
-	[SerializeField]
-	public Stat health;
+	//[SerializeField]
+	//public Stat health;
 
-    GlobalControl globalControl;
+   // GlobalControl globalControl;
 
-	private void Awake() {
+//	private void Awake() {
 
-		health.Initialize ();
-	}
+		//health.Initialize ();
+//	}
 		
 
 	// Use this for initialization
 	void Start () {
 		ActorController = gameObject.GetComponent<ActorController>();
-        globalControl = GameObject.FindGameObjectWithTag("GlobalControl").GetComponent<GlobalControl>();
-        health.currentVal = globalControl.health;
+       // globalControl = GameObject.FindGameObjectWithTag("GlobalControl").GetComponent<GlobalControl>();
+       // health.currentVal = globalControl.health;
 	}
 	
 	// Update is called once per frame
@@ -67,12 +67,12 @@ public class PlayerController : MonoBehaviour {
 
         // health testing
         
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			health.CurrentVal -= 10;
-		}
+		//if (Input.GetKeyDown (KeyCode.Z)) {
+		//	health.CurrentVal -= 10;
+	//	}
 
-		if (Input.GetKeyDown (KeyCode.Q)) {
-			health.CurrentVal += 10;
-		}
+		//if (Input.GetKeyDown (KeyCode.Q)) {
+	//		health.CurrentVal += 10;
+		//}
     }
 }

@@ -21,18 +21,36 @@ public class ActorController : MonoBehaviour {
 
 	public bool Jumping, Dead;
 
+	[SerializeField]
+	public Stat health;
+
 	private Vector3 Velocity = Vector3.zero;
+
+	GlobalControl globalControl;
+
+	private void Awake() {
+		health.Initialize ();
+	}
 
 	// Use this for initialization
 	void Start () {
         Animator = gameObject.GetComponent<Animator>();
 		RB = gameObject.GetComponent<Rigidbody> ();
 		fromRagdoll ();
+		globalControl = GameObject.FindGameObjectWithTag ("GlobalControl").GetComponent<GlobalControl> ();
+		health.currentVal = globalControl.health;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//health testing
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			health.CurrentVal -= 10;
+		}
 
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			health.CurrentVal += 10;
+		}
 
 	}
 
