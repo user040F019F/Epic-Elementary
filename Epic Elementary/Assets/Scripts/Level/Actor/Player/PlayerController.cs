@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour {
 
     GlobalControl globalControl;
 
-
 	private void Awake() {
 
 		health.Initialize ();

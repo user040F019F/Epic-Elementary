@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer_LevelSelect.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Level\Generation\OnFall.cs" />
+    <Compile Include="Assets\Scripts\Level\Generation\TexturePack.cs" />
     <Compile Include="Assets\Scripts\Level\HealthBar\BarScript.cs" />
     <Compile Include="Assets\Scripts\Level\HealthBar\Stat.cs" />
     <Compile Include="Assets\Scripts\Level\LevelSelection\Outside.cs" />
