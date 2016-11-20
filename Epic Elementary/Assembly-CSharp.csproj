@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Generic\Pivoter.cs" />
+     <Compile Include="Assets\Scripts\Global Control\GlobalControl.cs" />
+     <Compile Include="Assets\Scripts\Global Control\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\ActorController.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\AnimationEventController.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\Player\PlayerController.cs" />
@@ -53,7 +55,11 @@
      <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer_LevelSelect.cs" />
      <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
      <Compile Include="Assets\Scripts\Level\Generation\OnFall.cs" />
+     <Compile Include="Assets\Scripts\Level\Generation\TexturePack.cs" />
+     <Compile Include="Assets\Scripts\Level\HealthBar\BarScript.cs" />
+     <Compile Include="Assets\Scripts\Level\HealthBar\Stat.cs" />
      <Compile Include="Assets\Scripts\Level\LevelSelection\Outside.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelSelection\TriggerBox.cs" />
      <Compile Include="Assets\Scripts\Level\Other\PlayerDisable.cs" />
      <Compile Include="Assets\Scripts\Level\Other\SoundEffectsManager.cs" />
      <Compile Include="Assets\Scripts\Title\ChalkSound.cs" />
@@ -62,7 +68,10 @@
      <Compile Include="Assets\Scripts\Title\Painting.cs" />
      <Compile Include="Assets\Scripts\Title\ThudSoundTrim.cs" />
      <Compile Include="Assets\WeaponManager.cs" />
+     <None Include="Assets\Locker_room_props\readme.txt" />
+     <None Include="Assets\Sample- Low Poly Nature Assets\Materials\_MaterialIndex.txt" />
      <None Include="Assets\Art\Locker\Shaders\VIS_BumpSpec.shader" />
+     <None Include="Assets\Sample- Low Poly Nature Assets\Documentation.txt" />
      <None Include="Assets\Prefabs\Materials\PBS Materials Variety Pack\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
