@@ -10,6 +10,11 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject Level;
 	private LevelData levelData;
 
+	[SerializeField]
+	private GameObject AI;
+	[SerializeField]
+	private GameObject AIGrid;
+
     // Notifier
     public static bool isComplete = false;
 
@@ -117,6 +122,23 @@ public class LevelGenerator : MonoBehaviour {
 				Platforms.Remove(Platform);
 				Destroy(Platform);
 			}
+		}
+		SetAI ();
+	}
+
+	private void SetAI() {
+		int LastIndex = Platforms.Count - 1;
+		if (LastIndex > -1) {
+			AIGrid.transform.localScale = new Vector3 (
+				((Platforms [LastIndex].transform.position.x + Platforms [LastIndex].transform.localScale.x) - AI.transform.position.x),
+				1,
+				Math.Abs(levelData.zBoundBack - levelData.zBoundFront)
+			);
+			AI.transform.position = new Vector3 (
+				Platforms[0].transform.position.x,
+				Platforms[0].transform.position.y,
+				levelData.zBoundBack
+			);
 		}
 	}
 

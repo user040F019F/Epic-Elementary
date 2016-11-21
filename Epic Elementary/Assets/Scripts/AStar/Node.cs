@@ -3,19 +3,40 @@ using System.Collections;
 
 public class Node : IHeapItem<Node> {
 
-	public bool isWalkable = true;
+	private static float rad, dia;
+    public static float radius {
+		get {
+			return rad;
+		}
+		set {
+			rad = value;
+			dia = value * 2;
+		}
+	}
+	public static float diameter {
+		get {
+			return dia;
+		}
+		set {
+			rad = value / 2;
+			dia = value;
+		}
+	}
+
+	public bool isWalkable = true, isJumpable = false;
 	public Vector3 worldPosition;
 	public int gCost;
 	public int hCost;
-	public Grid.Point Position;
+	public Point Position;
 	public Node Parent;
 	private int index;
 
 	// Set vars
-	public Node (bool walkable, Vector3 worldPos, Grid.Point Index) {
+	public Node (Vector3 worldPos, Point Index, bool walkable, bool jumpable) {
 		this.isWalkable = walkable;
 		this.worldPosition = worldPos;
 		this.Position = Index;
+		this.isJumpable = jumpable;
 	}
 
 	// Determine fcost

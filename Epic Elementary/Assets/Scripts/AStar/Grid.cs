@@ -2,34 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class Grid : MonoBehaviour {
 
+    Node[,] grid;
+    Vector2 gridSize;
+	[SerializeField]
+    LayerMask PlatformMask, ObstacleMask;
+
 	private Vector2 Dimensions;
-	public LayerMask unwalkableMask;
+	public LayerMask[] UnwalkableMasks;
 	public float NodeDiameter, NodeRadius;
-	public static Node[,] grid;
+	//public static Node[,] grid;
 	public int maxSize { 
 		get {
 			return Size.x * Size.y;
 		}
 	}
 
-	public struct Point {
-		public int x,y;
-		public Point (int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-		public Point (Vector2 Position) {
-			this.x = (int)Position.x;
-			this.y = (int)Position.y;
-		}
-	}
+	
 
 	Point Size;
 
-	public GameObject player;
-	public GameObject leader;
+	// Draw grid in debugger
+	void OnDrawGizmos() {
+		Gizmos.DrawWireCube(transform.position, new Vector3(gridSize.x, 1, -gridSize.y));
+		if (grid != null) {
+			foreach (Node node in grid) {
+				Gizmos.color = node.isWalkable ? node.isJumpable ? Color.green : Color.gray : Color.red;
+				Gizmos.DrawCube (node.worldPosition, Vector3.one * (Node.diameter - .1f));
+			}
+		}
+	}
+
+	public GameObject Player;
 
 	public Vector3 Position, Corner, Percent, Percentages;
 
@@ -49,6 +55,53 @@ public class Grid : MonoBehaviour {
 		return Neighbors;
 	}
 
+	private void Refresh() {
+
+	}
+
+	void Start() {
+		Node.radius = Player.transform.lossyScale.x;
+	}
+
+	void Update () {
+		Regenerate ();
+	}
+
+	public void Regenerate() {
+		this.gridSize = new Vector2(transform.localScale.x, transform.localScale.z);
+		this.Size = new Point (this.gridSize.x/Node.diameter, this.gridSize.y/Node.diameter);
+		this.Position = new Vector3 (
+			transform.parent.position.x,
+			transform.position.y - (transform.localScale.y - (transform.localScale.y/2)),
+			transform.parent.position.z - transform.localScale.z
+		);
+		CreateGrid ();
+	}
+
+	private void CreateGrid() {
+		grid = new Node[Size.x, Size.y];
+		for (int x = 0; x < Size.x; x++) {
+			for (int y = 0; y < Size.y; y++) {
+				Vector3 CurrentPoint = new Vector3 (
+					this.Position.x + (x * Node.diameter + Node.radius),
+					transform.position.y,
+					this.Position.z + (y * Node.diameter + Node.radius)
+                );
+				bool Walkable = true, Jumpable = false;
+				// Platform && Obstacle Mask Calculations
+				Walkable = (Physics.CheckSphere(CurrentPoint, Node.radius, PlatformMask) && !Physics.CheckSphere(CurrentPoint, Node.radius, ObstacleMask));
+				// Jumpable Calculations
+				Jumpable = (Walkable
+					&& (!Physics.CheckSphere (new Vector3 (CurrentPoint.x - Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)
+						|| !Physics.CheckSphere(new Vector3(CurrentPoint.x + Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)
+					)
+				);
+
+				grid [x, y] = new Node (CurrentPoint, new Point (x, y), Walkable, Jumpable);
+			}
+		}
+	}
+	/*
 	// Use this for initialization
 	void Start () {
 		Dimensions = new Vector2 (transform.localScale.x, transform.localScale.z);
@@ -59,7 +112,7 @@ public class Grid : MonoBehaviour {
 		grid = new Node[Size.x, Size.y];
 		Regenerate ();
 	}
-
+	*/
 	// Get node from a world point
 	public Node NodefromWorld(Vector3 Position) {
 		Point position = NodeIndexfromWorld (Position);
@@ -76,6 +129,7 @@ public class Grid : MonoBehaviour {
 		return position;
 	}
 
+	/*
 	// Regenerate grid
 	public void Regenerate() {
 		for (int x = 0; x < Size.x; x++) {
@@ -86,7 +140,7 @@ public class Grid : MonoBehaviour {
 			}
 		}
 	}
-
+	*/
 	// Get distance allowing diagonals
 	public int GetDistance (Node start, Node target) {
 		Point distance = new Point (Mathf.Abs (start.Position.x - target.Position.x), Mathf.Abs (start.Position.y - target.Position.y));

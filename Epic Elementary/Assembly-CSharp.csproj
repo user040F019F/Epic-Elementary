@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\AStar\Node.cs" />
      <Compile Include="Assets\Scripts\Generic\MinHeap.cs" />
      <Compile Include="Assets\Scripts\Generic\Pivoter.cs" />
+     <Compile Include="Assets\Scripts\Generic\Point.cs" />
      <Compile Include="Assets\Scripts\Global Control\GlobalControl.cs" />
      <Compile Include="Assets\Scripts\Global Control\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\ActorController.cs" />
