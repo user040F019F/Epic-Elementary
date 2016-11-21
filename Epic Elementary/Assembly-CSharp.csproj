@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AStar\AStar.cs" />
+     <Compile Include="Assets\Scripts\AStar\Grid.cs" />
+     <Compile Include="Assets\Scripts\AStar\Node.cs" />
+     <Compile Include="Assets\Scripts\Generic\MinHeap.cs" />
      <Compile Include="Assets\Scripts\Generic\Pivoter.cs" />
      <Compile Include="Assets\Scripts\Global Control\GlobalControl.cs" />
      <Compile Include="Assets\Scripts\Global Control\PlayerState.cs" />
@@ -60,6 +64,7 @@
      <Compile Include="Assets\Scripts\Level\HealthBar\Stat.cs" />
      <Compile Include="Assets\Scripts\Level\LevelSelection\Outside.cs" />
      <Compile Include="Assets\Scripts\Level\LevelSelection\TriggerBox.cs" />
+     <Compile Include="Assets\Scripts\Level\Other\LevelData.cs" />
      <Compile Include="Assets\Scripts\Level\Other\PlayerDisable.cs" />
      <Compile Include="Assets\Scripts\Level\Other\SoundEffectsManager.cs" />
      <Compile Include="Assets\Scripts\Title\ChalkSound.cs" />

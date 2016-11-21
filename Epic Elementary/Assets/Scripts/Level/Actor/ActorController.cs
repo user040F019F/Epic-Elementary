@@ -7,6 +7,11 @@ public class ActorController : MonoBehaviour {
     private Animator Animator;
 	private Rigidbody RB;
 
+	//	Level Info
+	public GameObject levelObject;
+	[HideInInspector]
+	public LevelData level;
+
 	[Range(0f,80f)]
 	public float ThrowAngle = 45f;
 
@@ -36,6 +41,11 @@ public class ActorController : MonoBehaviour {
 	void Start () {
         Animator = gameObject.GetComponent<Animator>();
 		RB = gameObject.GetComponent<Rigidbody> ();
+		try {
+			level = levelObject.GetComponent<LevelData>();
+		} catch {
+			// Will be defined by level generator
+		}
 		fromRagdoll ();
 		globalControl = GameObject.FindGameObjectWithTag ("GlobalControl").GetComponent<GlobalControl> ();
 		health.currentVal = globalControl.health;
@@ -64,11 +74,11 @@ public class ActorController : MonoBehaviour {
                 Jumping = false;
             }
 		}
-		if (gameObject.transform.position.z > LevelGenerator.BackBound) {
-			gameObject.transform.position = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, LevelGenerator.BackBound);
+		if (gameObject.transform.position.z > level.zBoundBack) {
+			gameObject.transform.position = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, level.zBoundBack);
 		} 
-		if (gameObject.transform.position.z < LevelGenerator.FrontBound) {
-			gameObject.transform.position = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, LevelGenerator.FrontBound);
+		if (gameObject.transform.position.z < level.zBoundFront) {
+			gameObject.transform.position = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, level.zBoundFront);
 		}
     }
 

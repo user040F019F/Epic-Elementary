@@ -6,6 +6,10 @@ using System.Linq;
 
 public class LevelGenerator : MonoBehaviour {
 
+	[SerializeField]
+	private GameObject Level;
+	private LevelData levelData;
+
     // Notifier
     public static bool isComplete = false;
 
@@ -117,12 +121,14 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	private void setPlayerBounds() {
-		BackBound = -playerBoundBack;
-		FrontBound = -Location.z + playerBoundFront;
+		levelData = Level.GetComponent<LevelData> ();
+		levelData.zBoundBack = -playerBoundBack;
+		levelData.zBoundFront = -Location.z + playerBoundFront;
 	}
 
 	// Set Player
 	private void setPlayer() {
+		Player.GetComponent<ActorController> ().level = this.levelData;
 		Player.transform.position = new Vector3 (cOrigin.x - (offset ), cOrigin.y, -Location.z / 2);
 	}
 
