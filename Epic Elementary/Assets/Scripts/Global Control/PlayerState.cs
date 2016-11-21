@@ -14,7 +14,9 @@ public class PlayerState : MonoBehaviour {
 
     //Save data to global control   
     public void SavePlayer() {
-        health = actorStat.health.currentVal;
-        GlobalControl.Instance.health = health;
+
+        // health = actorStat.health.currentVal;
+        // GlobalControl.Instance.health = health;
+
     }
 }
