@@ -12,6 +12,21 @@ public class ActorController : MonoBehaviour {
 	[HideInInspector]
 	public LevelData level;
 
+    // Health tracker
+ //   [HideInInspector]
+    private float health;
+    public float Health {
+        get {
+            return this.health;
+        }
+        set {
+            this.health = Mathf.Clamp(value, 0, this.MaxHealth);
+        }
+    }
+ //   [HideInInspector]
+    public float MaxHealth = 100;
+
+    // Throwing Angle
 	[Range(0f,80f)]
 	public float ThrowAngle = 45f;
 
@@ -24,21 +39,20 @@ public class ActorController : MonoBehaviour {
 		RotationSpeed = 1f,
         JumpHeight = 5f;
 
+    // State monitors
 	public bool Jumping, Dead;
-
-	[SerializeField]
-	public Stat health;
-
+    
 	private Vector3 Velocity = Vector3.zero;
 
 	GlobalControl globalControl;
 
 	private void Awake() {
-		health.Initialize ();
+        this.Health = this.MaxHealth;
 	}
 
 	// Use this for initialization
 	void Start () {
+        this.Health = this.MaxHealth;
         Animator = gameObject.GetComponent<Animator>();
 		RB = gameObject.GetComponent<Rigidbody> ();
 		try {
@@ -48,18 +62,17 @@ public class ActorController : MonoBehaviour {
 		}
 		fromRagdoll ();
 		globalControl = GameObject.FindGameObjectWithTag ("GlobalControl").GetComponent<GlobalControl> ();
-		health.currentVal = globalControl.health;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//health testing
 		if (Input.GetKeyDown (KeyCode.Z)) {
-			health.CurrentVal -= 10;
+			this.Health -= 10f;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Q)) {
-			health.CurrentVal += 10;
+			this.Health += 10f;
 		}
 
 	}

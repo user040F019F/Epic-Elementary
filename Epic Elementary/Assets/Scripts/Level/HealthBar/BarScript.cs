@@ -27,40 +27,11 @@ public class BarScript : MonoBehaviour {
 		}
 	}
 
+
 	// Use this for initialization
 	void Start () {
         globalControl = GameObject.FindGameObjectWithTag("GlobalControl").GetComponent<GlobalControl>();
         fillAmount = (globalControl.health)*.01f;
-
-
-
-
-        /* below set starting value of the health text (i.e. Health : 100) to...
-
-            xxxxxx = globalControl.health;
-
-        */
-                
-        
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 	
 	// Update is called once per frame
