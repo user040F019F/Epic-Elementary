@@ -45,37 +45,36 @@ public class Pivoter : MonoBehaviour {
     {
         foreach (Transform child in gameObject.transform)
         {
-            child.localPosition = Vector3.zero;
-            Vector3 Halfed = child.localScale / 2;
-            Vector3 finalLocation = Vector3.zero;
-            switch (yAlign)
-            {
-                case YOrientation.Bottom:
-                    finalLocation.y = Halfed.y;
-                    break;
-                case YOrientation.Top:
-                    finalLocation.y = -Halfed.y;
-                    break;
-            }
-            switch (hAlign)
-            {
-                case HOrientation.Left:
-                    finalLocation.x = Halfed.x;
-                    break;
-                case HOrientation.Right:
-                    finalLocation.x = -Halfed.x;
-                    break;
-            }
-            switch (zAlign)
-            {
-                case ZOrientation.Back:
-                    finalLocation.z = Halfed.z;
-                    break;
-                case ZOrientation.Front:
-                    finalLocation.z = -Halfed.z;
-                    break;
-            }
-            child.localPosition += finalLocation;
+            if (child.tag != "Obstacle") {
+                child.localPosition = Vector3.zero;
+                Vector3 Halfed = child.localScale / 2;
+                Vector3 finalLocation = Vector3.zero;
+                switch (yAlign) {
+                    case YOrientation.Bottom:
+                        finalLocation.y = Halfed.y;
+                        break;
+                    case YOrientation.Top:
+                        finalLocation.y = -Halfed.y;
+                        break;
+                }
+                switch (hAlign) {
+                    case HOrientation.Left:
+                        finalLocation.x = Halfed.x;
+                        break;
+                    case HOrientation.Right:
+                        finalLocation.x = -Halfed.x;
+                        break;
+                }
+                switch (zAlign) {
+                    case ZOrientation.Back:
+                        finalLocation.z = Halfed.z;
+                        break;
+                    case ZOrientation.Front:
+                        finalLocation.z = -Halfed.z;
+                        break;
+                }
+                child.localPosition += finalLocation;
+            }        
         }
     }
 }

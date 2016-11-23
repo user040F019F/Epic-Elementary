@@ -69,6 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Platform.cs" />
     <Compile Include="Assets\PlayerHealthBar.cs" />
     <Compile Include="Assets\Scripts\AStar\AStar.cs" />
     <Compile Include="Assets\Scripts\AStar\Grid.cs" />

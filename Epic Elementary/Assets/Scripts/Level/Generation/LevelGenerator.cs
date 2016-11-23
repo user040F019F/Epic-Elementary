@@ -39,7 +39,13 @@ public class LevelGenerator : MonoBehaviour {
     private GameObject Prefab;
 
     // Texture Packs
-    public TexturePack[] Package;
+    [SerializeField]
+    private TexturePack[] Packages;
+    public TexturePack Package {
+        get {
+            return Packages[0];
+        }
+    }
 
     //Static GameObjects
     [SerializeField]
@@ -159,7 +165,7 @@ public class LevelGenerator : MonoBehaviour {
     {
         MeshRenderer Back = Underground.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
         MeshRenderer Bottom = Underground.transform.Find("ExpandablePlane/Bottom").gameObject.GetComponent<MeshRenderer>();
-        Back.material = Bottom.material = Package[0].Underground;
+        Back.material = Bottom.material = Package.Underground;
 
         Underground.transform.position = cOrigin;
         Underground.transform.localScale = new Vector3(LevelLength, pitDepth, Location.z);
@@ -176,7 +182,7 @@ public class LevelGenerator : MonoBehaviour {
         Sky.transform.localScale = new Vector3(LevelLength, cTViewport.y - cOrigin.y, Location.z);
 
         MeshRenderer Back = Sky.transform.Find("ExpandablePlane/Back").gameObject.GetComponent<MeshRenderer>();
-        Back.material = Package[0].Backdrop;
+        Back.material = Package.Backdrop;
         Back.material.mainTextureScale = Sky.transform.localScale;
     }
 
@@ -199,8 +205,8 @@ public class LevelGenerator : MonoBehaviour {
         MeshRenderer Top = Platform.transform.Find("ExpandablePlane/Top").gameObject.GetComponent<MeshRenderer>();
         MeshRenderer Left = Platform.transform.Find("ExpandablePlane/Left").gameObject.GetComponent<MeshRenderer>();
         MeshRenderer Right = Platform.transform.Find("ExpandablePlane/Right").gameObject.GetComponent<MeshRenderer>();
-        Top.material = Package[0].Platform;
-        Left.material = Right.material = Package[0].Sides;
+        Top.material = Package.Platform;
+        Left.material = Right.material = Package.Sides;
         Top.material.mainTextureScale = new Vector2(Platform.transform.localScale.x, Platform.transform.localScale.z);
         Left.material.mainTextureScale = Right.material.mainTextureScale = new Vector2(Platform.transform.localScale.y, Platform.transform.localScale.z);
 

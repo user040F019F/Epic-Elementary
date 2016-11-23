@@ -13,7 +13,7 @@ public class ActorController : MonoBehaviour {
 	public LevelData level;
 
     // Health tracker
- //   [HideInInspector]
+    [HideInInspector]
     private float health;
     public float Health {
         get {
@@ -23,15 +23,17 @@ public class ActorController : MonoBehaviour {
             this.health = Mathf.Clamp(value, 0, this.MaxHealth);
         }
     }
- //   [HideInInspector]
+    [HideInInspector]
     public float MaxHealth = 100;
 
     // Throwing Angle
 	[Range(0f,80f)]
 	public float ThrowAngle = 45f;
+    [Range(0f, 80f)]
+    public float ThrowRange = 45f;
 
-	// Restrictions
-	[SerializeField]
+    // Restrictions
+    [SerializeField]
 	private float MaxJoggingSpeed = 5f,
 		RunningSpeed = 8f,
 		Multiplier = 2f,
@@ -188,10 +190,10 @@ public class ActorController : MonoBehaviour {
     public void Throw (Vector3 Destination)
     {
 		if (!Dead) {
-			if (!Jumping) {
-				ThrowDestination = Destination;
-				Animator.SetTrigger ("Throw");
-
+                Vector3 Direction = Destination - transform.position;
+                if (Vector3.Angle(transform.forward, Direction) <= ThrowRange) {
+                    ThrowDestination = Destination;
+                    Animator.SetTrigger("Throw");
 			}
 		}
     }
