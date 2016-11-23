@@ -31,7 +31,7 @@ public class Platform : MonoBehaviour {
                     LevelGen.Package.Obstacles[Rnd.Next(0, LevelGen.Package.Obstacles.Length)]
                 ));
             Obstacles[i].transform.parent = this.transform;
-            Obstacles[i].transform.localPosition = new Vector3((float)Rnd.NextDouble(), -.1f, -(float)Rnd.NextDouble());
+            Obstacles[i].transform.localPosition = new Vector3((float)Rnd.NextDouble(), 0, -(float)Rnd.NextDouble());
         }
     }
 	
