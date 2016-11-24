@@ -45,7 +45,7 @@ public class Pivoter : MonoBehaviour {
     {
         foreach (Transform child in gameObject.transform)
         {
-            if (child.tag != "Obstacle") {
+            if (child.tag != "Obstacle" && child.tag != "Enemy") {
                 child.localPosition = Vector3.zero;
                 Vector3 Halfed = child.localScale / 2;
                 Vector3 finalLocation = Vector3.zero;

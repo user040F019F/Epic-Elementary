@@ -31,6 +31,10 @@ public class ActorController : MonoBehaviour {
 	public float ThrowAngle = 45f;
     [Range(0f, 80f)]
     public float ThrowRange = 45f;
+    [Range(0f, 10f)]
+    public float ThrowRadius = 5f;
+    [Range(0f, 10f)]
+    public float MinThrowRadius = 1f;
 
     // Restrictions
     [SerializeField]
@@ -192,7 +196,12 @@ public class ActorController : MonoBehaviour {
 		if (!Dead) {
                 Vector3 Direction = Destination - transform.position;
                 if (Vector3.Angle(transform.forward, Direction) <= ThrowRange) {
-                    ThrowDestination = Destination;
+                    if (Direction.magnitude > ThrowRadius) {
+                    Direction = Direction.normalized * ThrowRadius;
+                } else if (Direction.magnitude < MinThrowRadius) {
+                    Direction = Direction * MinThrowRadius;
+                }
+                    ThrowDestination = transform.position + Direction;
                     Animator.SetTrigger("Throw");
 			}
 		}

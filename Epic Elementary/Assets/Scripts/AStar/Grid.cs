@@ -90,12 +90,6 @@ public class Grid : MonoBehaviour {
 				bool Walkable = true, Jumpable = false;
 				// Platform && Obstacle Mask Calculations
 				Walkable = (Physics.CheckSphere(CurrentPoint, Node.radius, PlatformMask) && !Physics.CheckSphere(CurrentPoint, Node.radius, ObstacleMask));
-				// Jumpable Calculations
-				Jumpable = (Walkable
-					&& (!Physics.CheckSphere (new Vector3 (CurrentPoint.x - Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)
-						|| !Physics.CheckSphere(new Vector3(CurrentPoint.x + Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)
-					)
-				);
 
 				grid [x, y] = new Node (CurrentPoint, new Point (x, y), Walkable, Jumpable);
 			}
