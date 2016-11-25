@@ -22,18 +22,18 @@ public class AStar : MonoBehaviour {
 		return PathTo (grid.NodeFromWorldPoint(Location).Clone(), grid.NodeFromWorldPoint(Player.transform.position).Clone());
 	}
 
-	public static Vector3[] PathTo (Node Location, Node Target) {
-		MinHeap<Node> Opened = new MinHeap<Node> (grid.maxSize); // Nodes Found
-		HashSet<Node> Closed = new HashSet<Node>(); // Nodes Explored
-		Opened.Push(Location); // Open current location
+    public static Vector3[] PathTo(Node Location, Node Target) {
+        MinHeap<Node> Opened = new MinHeap<Node>(grid.maxSize); // Nodes Found
+        HashSet<Node> Closed = new HashSet<Node>(); // Nodes Explored
+        Opened.Push(Location); // Open current location
         int i = 0;
-		while (Opened.Count > 0 && i < 3) {
-			// Move Current node into explored
-			Node Current = Opened.Pop ();
+        while (Opened.Count > 0 && i < 4) {
+            // Move Current node into explored
+            Node Current = Opened.Pop();
             i++;
-			Closed.Add (Current);
-			// Stop if target node found
-			if (Current == Target) {
+            Closed.Add(Current);
+            // Stop if target node found
+            if (Current == Target || i == 4) {
 				return ToWaypoints (ReversePath (Location, Current));
 			}
 			Node[] Neighbors = grid.GetNeighbors (Current);

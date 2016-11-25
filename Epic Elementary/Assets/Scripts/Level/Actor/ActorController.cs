@@ -130,6 +130,8 @@ public class ActorController : MonoBehaviour {
 		}
 	}
 
+
+
 	// Provide running abilities
 	public void Run(Vector3 Movement) {
 		if (!Dead) {
@@ -170,22 +172,27 @@ public class ActorController : MonoBehaviour {
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation (Velocity.normalized), RotationSpeed * Time.deltaTime);
 	}
 
+    public void MoveTo(Vector3 Point) {
+        Move(Point - transform.position);
+    }
+
 	// Move player under regular circumstances
 	public void Move (Vector3 Movement)
     {
 		if (!Dead) {
-			if (Movement.magnitude > MinSpeed) {
-				if (!Jumping) {
-					Velocity = Movement * Multiplier;
-					if (Velocity.magnitude > MaxJoggingSpeed) {
-						Velocity.Normalize ();
-						Velocity *= MaxJoggingSpeed;
-					}
-				}
-				Finalize (Movement);
-			}
+            if (Movement.magnitude > MinSpeed) {
+                if (!Jumping) {
+                    Velocity = Movement * Multiplier;
+                    if (Velocity.magnitude > MaxJoggingSpeed) {
+                        Velocity.Normalize();
+                        Velocity *= MaxJoggingSpeed;
+                    }
+                }
+                Finalize(Movement);
+            } else Velocity = Vector3.zero;
 			Animator.SetFloat ("Speed", Movement.magnitude);
 			Animator.SetBool ("Running", false);
+            
 		} else
 			Velocity = Vector3.zero;
     }
