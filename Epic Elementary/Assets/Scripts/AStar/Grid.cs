@@ -9,7 +9,7 @@ public class Grid : MonoBehaviour {
 	private Vector2 gridSize; // Gird Node Size as vector
 	private Point Size; // Node Counts
 	[SerializeField]
-	private LayerMask PlatformMask, ObstacleMask; // Detection Masks
+	private LayerMask PlatformMask, ObstacleMask, EnemyMask; // Detection Masks
 	private Vector3 Position; // Location of left front corner of grid
 
 	private Vector2 Dimensions;
@@ -91,7 +91,7 @@ public class Grid : MonoBehaviour {
                 );
 				bool Walkable = true, Jumpable = false;
 				// Platform && Obstacle Mask Calculations
-				Walkable = (Physics.CheckSphere(CurrentPoint, Node.radius, PlatformMask) && !Physics.CheckSphere(CurrentPoint, Node.radius, ObstacleMask));
+				Walkable = (Physics.CheckSphere(CurrentPoint, Node.radius, PlatformMask) && !Physics.CheckSphere(CurrentPoint, Node.radius, ObstacleMask) && !Physics.CheckSphere(CurrentPoint, Node.radius, EnemyMask));
 				// Jumpable Calculations
 				Jumpable = (Walkable
 					&& (!Physics.CheckSphere (new Vector3 (CurrentPoint.x - Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)

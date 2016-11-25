@@ -19,7 +19,7 @@ public class AI : MonoBehaviour {
             Debug.DrawLine(transform.position, Path[0], Color.green);
             Actor.MoveTo(Path[0]);
         } catch {
-
+            Actor.MoveTo(transform.position);
         }
         //Debug.DrawLine(transform.position, Path[0]);
 		//Debug.Log (Path);
