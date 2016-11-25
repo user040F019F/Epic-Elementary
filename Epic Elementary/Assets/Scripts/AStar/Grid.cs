@@ -5,24 +5,25 @@ using System.Collections.Generic;
 
 public class Grid : MonoBehaviour {
 
-    Node[,] grid;
-    Vector2 gridSize;
+    private Node[,] grid; // Grid Nodes
+	private Vector2 gridSize; // Gird Node Size as vector
+	private Point Size; // Node Counts
 	[SerializeField]
-    LayerMask PlatformMask, ObstacleMask;
+	private LayerMask PlatformMask, ObstacleMask; // Detection Masks
+	private Vector3 Position; // Location of left front corner of grid
 
 	private Vector2 Dimensions;
 	public LayerMask[] UnwalkableMasks;
-	public float NodeDiameter, NodeRadius;
-	//public static Node[,] grid;
+
 	public int maxSize { 
 		get {
 			return Size.x * Size.y;
 		}
 	}
 
-	
 
-	Point Size;
+	// TEMP
+	public GameObject Player;
 
 	// Draw grid in debugger
 	void OnDrawGizmos() {
@@ -32,31 +33,30 @@ public class Grid : MonoBehaviour {
 				Gizmos.color = node.isWalkable ? node.isJumpable ? Color.green : Color.gray : Color.red;
 				Gizmos.DrawCube (node.worldPosition, Vector3.one * (Node.diameter - .1f));
 			}
+			Gizmos.color = Color.green;
+			Node PlayerNode = NodeFromWorldPoint (Player.transform.position);
+			Gizmos.DrawCube (PlayerNode.worldPosition, Vector3.one * (Node.diameter - .1f));
+			Gizmos.color = Color.blue;
+			foreach (Node node in GetNeighbors(PlayerNode)) {
+				Gizmos.DrawCube (node.worldPosition, Vector3.one * (Node.diameter - .1f));
+			}
 		}
 	}
 
-	public GameObject Player;
-
-	public Vector3 Position, Corner, Percent, Percentages;
-
 	// Return node neighbors
-	public List<Node> GetNeighbors(Node node) {
+	public Node[] GetNeighbors(Node node) {
 		List<Node> Neighbors = new List<Node>();
 		for (int x = -1; x <= 1; x++) {
 			for (int y = -1; y <= 1; y++) {
-				if (grid [node.Position.x + x, node.Position.y + y] == node)
+				if (x == 0 && y == 0)
 					continue;
-				try {
-					Neighbors.Add(grid[node.Position.x + x, node.Position.y + y]);
-				} catch {
-				}
+				int X = node.Position.x + x;
+				int Y = node.Position.y + y;
+				if (X >= 0 && X < Size.x && Y >= 0 && Y < Size.y)
+					Neighbors.Add (grid [X, Y]);
 			}
 		}
-		return Neighbors;
-	}
-
-	private void Refresh() {
-
+		return Neighbors.ToArray();
 	}
 
 	void Start() {
@@ -67,6 +67,7 @@ public class Grid : MonoBehaviour {
 		Regenerate ();
 	}
 
+	// Regenerate the grid
 	public void Regenerate() {
 		this.gridSize = new Vector2(transform.localScale.x, transform.localScale.z);
 		this.Size = new Point (this.gridSize.x/Node.diameter, this.gridSize.y/Node.diameter);
@@ -78,6 +79,7 @@ public class Grid : MonoBehaviour {
 		CreateGrid ();
 	}
 
+	// Generate grid
 	private void CreateGrid() {
 		grid = new Node[Size.x, Size.y];
 		for (int x = 0; x < Size.x; x++) {
@@ -90,51 +92,36 @@ public class Grid : MonoBehaviour {
 				bool Walkable = true, Jumpable = false;
 				// Platform && Obstacle Mask Calculations
 				Walkable = (Physics.CheckSphere(CurrentPoint, Node.radius, PlatformMask) && !Physics.CheckSphere(CurrentPoint, Node.radius, ObstacleMask));
-
+				// Jumpable Calculations
+				Jumpable = (Walkable
+					&& (!Physics.CheckSphere (new Vector3 (CurrentPoint.x - Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)
+						|| !Physics.CheckSphere(new Vector3(CurrentPoint.x + Node.diameter, CurrentPoint.y, CurrentPoint.z), Node.radius, PlatformMask)
+					)
+				);
 				grid [x, y] = new Node (CurrentPoint, new Point (x, y), Walkable, Jumpable);
 			}
 		}
 	}
-	/*
-	// Use this for initialization
-	void Start () {
-		Dimensions = new Vector2 (transform.localScale.x, transform.localScale.z);
-		Corner = transform.position - transform.localScale / 2;
-		NodeDiameter = player.transform.localScale.x;
-		NodeRadius = NodeDiameter / 2;
-		Size = new Point (Dimensions / NodeDiameter);
-		grid = new Node[Size.x, Size.y];
-		Regenerate ();
+
+	// Get index from a world point
+	private Point IndexFromWorldPoint (Vector3 Location) {
+		Vector3 LocalLocation = Location - this.Position;
+		Vector2 LocationPercentage = new Vector2 (
+			                             Mathf.Clamp01 (LocalLocation.x / transform.localScale.x),
+			                             Mathf.Clamp01 (LocalLocation.z / transform.localScale.z)
+		                             );
+		return new Point (
+			(Size.x -1) * LocationPercentage.x,
+			(Size.y -1) * LocationPercentage.y
+		                 );
 	}
-	*/
+
 	// Get node from a world point
-	public Node NodefromWorld(Vector3 Position) {
-		Point position = NodeIndexfromWorld (Position);
-		return grid [position.x, position.y];
+	public Node NodeFromWorldPoint (Vector3 Position) {
+		Point Location = IndexFromWorldPoint(Position);
+		return grid[Location.x, Location.y];
 	}
 
-	// Get node position from world point
-	public Point NodeIndexfromWorld (Vector3 Position) {
-		this.Position = Position - Corner;
-		Percent = new Vector2(Mathf.Clamp01(this.Position.x / transform.localScale.x), Mathf.Clamp01(this.Position.z / transform.localScale.z));
-		Point position = new Point ();
-		position.x = (int)((Dimensions.x - 1) * Percent.x);
-		position.y = (int)((Dimensions.y - 1) * Percent.y);
-		return position;
-	}
-
-	/*
-	// Regenerate grid
-	public void Regenerate() {
-		for (int x = 0; x < Size.x; x++) {
-			for (int z = 0; z < Size.y; z++) {
-				Vector3 WorldPoint = Corner + (Vector3.right * (x * NodeDiameter + NodeRadius)) + (Vector3.forward * (z * NodeDiameter + NodeRadius));
-				bool isWalkable = !Physics.CheckSphere (WorldPoint, NodeRadius, unwalkableMask);
-				grid [x, z] = new Node (isWalkable, WorldPoint, new Point(x,z));
-			}
-		}
-	}
-	*/
 	// Get distance allowing diagonals
 	public int GetDistance (Node start, Node target) {
 		Point distance = new Point (Mathf.Abs (start.Position.x - target.Position.x), Mathf.Abs (start.Position.y - target.Position.y));
@@ -147,14 +134,6 @@ public class Grid : MonoBehaviour {
 	// Get distance without diagonals
 	public int GetHeuristic (Node start, Node target) {
 		Point distance = new Point (Mathf.Abs (start.Position.x - target.Position.x), Mathf.Abs (start.Position.y - target.Position.y));
-		return (10 * distance.x + 10 * distance.y);
-	}
-
-	// Update is called once per frame
-	void LateUpdate () {
-		if (Input.GetMouseButtonDown(1))
-		{
-			Regenerate ();
-		}
+		return (1000 * distance.x + 1000 * distance.y);
 	}
 }

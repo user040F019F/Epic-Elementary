@@ -1,11 +1,11 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epic Elementary.CSharp.Plugins", "Epic Elementary.CSharp.Plugins.csproj", "{FE7494F3-46E6-D8FC-49BC-D21956A99CD6}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{3C6476A1-CB2F-9839-F3CE-DEACDA73F7AF}") = "Epic Elementary", "Assembly-CSharp-firstpass.csproj", "{BB6BB04B-5E0F-DB47-170B-73F37C4F478C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epic Elementary.CSharp", "Epic Elementary.CSharp.csproj", "{198FA210-C2CB-7A52-18E8-4C41D257C379}"
+Project("{3C6476A1-CB2F-9839-F3CE-DEACDA73F7AF}") = "Epic Elementary", "Assembly-CSharp.csproj", "{E46E9365-73AF-AF4C-7AA0-D0155EE682D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epic Elementary.CSharp.Editor", "Epic Elementary.CSharp.Editor.csproj", "{A2ACD246-BD4C-E433-30E5-061AFB408F5C}"
+Project("{3C6476A1-CB2F-9839-F3CE-DEACDA73F7AF}") = "Epic Elementary", "Assembly-CSharp-Editor.csproj", "{B506DBAF-ECEF-9B08-373D-AA3D143035A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,20 +13,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FE7494F3-46E6-D8FC-49BC-D21956A99CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE7494F3-46E6-D8FC-49BC-D21956A99CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE7494F3-46E6-D8FC-49BC-D21956A99CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE7494F3-46E6-D8FC-49BC-D21956A99CD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{198FA210-C2CB-7A52-18E8-4C41D257C379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{198FA210-C2CB-7A52-18E8-4C41D257C379}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{198FA210-C2CB-7A52-18E8-4C41D257C379}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{198FA210-C2CB-7A52-18E8-4C41D257C379}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2ACD246-BD4C-E433-30E5-061AFB408F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2ACD246-BD4C-E433-30E5-061AFB408F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2ACD246-BD4C-E433-30E5-061AFB408F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2ACD246-BD4C-E433-30E5-061AFB408F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB6BB04B-5E0F-DB47-170B-73F37C4F478C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6BB04B-5E0F-DB47-170B-73F37C4F478C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6BB04B-5E0F-DB47-170B-73F37C4F478C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6BB04B-5E0F-DB47-170B-73F37C4F478C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E46E9365-73AF-AF4C-7AA0-D0155EE682D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E46E9365-73AF-AF4C-7AA0-D0155EE682D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E46E9365-73AF-AF4C-7AA0-D0155EE682D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E46E9365-73AF-AF4C-7AA0-D0155EE682D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B506DBAF-ECEF-9B08-373D-AA3D143035A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B506DBAF-ECEF-9B08-373D-AA3D143035A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B506DBAF-ECEF-9B08-373D-AA3D143035A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B506DBAF-ECEF-9B08-373D-AA3D143035A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal

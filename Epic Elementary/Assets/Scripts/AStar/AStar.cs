@@ -4,74 +4,83 @@ using System.Collections.Generic;
 
 public class AStar : MonoBehaviour {
 
-	private static Grid grid;
+	private static Grid grid; // Keep track of Grid
+	[SerializeField]
+	private GameObject Player;
+	[HideInInspector]
+	public static Node PlayerNode; // Keep track of player location
 
 	void Start () {
-		grid = GetComponent<Grid> ();
+		grid = GetComponentInChildren<Grid> ();
 	}
 
-	// Find a path
-	public static Vector3[] getPath (Vector3 position, Vector3 target) {
-		Node startNode = grid.NodefromWorld (position);
-		Node targetNode = grid.NodefromWorld (target);
+	void Update () {
+		PlayerNode = grid.NodeFromWorldPoint (Player.transform.position);
+	}
 
-		MinHeap<Node> Open = new MinHeap<Node> (grid.maxSize);
-		HashSet<Node> Closed = new HashSet<Node> ();
+	public Vector3[] PathToPlayer (Vector3 Location) {
+		return PathTo (grid.NodeFromWorldPoint(Location), PlayerNode);
+	}
 
-		Open.Push(startNode);
-
-		while (Open.Count > 0) {
-			Node Current = Open.Pop ();
+	public static Vector3[] PathTo (Node Location, Node Target) {
+		MinHeap<Node> Opened = new MinHeap<Node> (grid.maxSize); // Nodes Found
+		HashSet<Node> Closed = new HashSet<Node>(); // Nodes Explored
+		Opened.Push(Location); // Open current location
+		Node Current = null;
+		while (Opened.Count > 0) {
+			// Move Current node into explored
+			Current = Opened.Pop ();
 			Closed.Add (Current);
-
-			if (Current == targetNode) {
-				return ReversePath(startNode, targetNode);
+			// Stop if target node found
+			if (Current.Position.x == Target.Position.x && Current.Position.y == Target.Position.y) {
+				return ToWaypoints (ReversePath (Location, Target));
 			}
-			List<Node> test = grid.GetNeighbors (Current);
-			foreach (Node Neighbor in grid.GetNeighbors(Current)) {
-				if (!Neighbor.isWalkable || Closed.Contains (Neighbor)) {
+			Node[] Neighbors = grid.GetNeighbors (Current);
+			foreach (Node Neighbor in Neighbors) {
+				if (Neighbor.isJumpable)
+					return null;
+				if (!Neighbor.isWalkable || Closed.Contains (Neighbor))
 					continue;
-				} 
-				int CostToNeighbor = Current.gCost + grid.GetDistance (Current, Neighbor);
-				if (!Open.Contains (Neighbor) || CostToNeighbor < Neighbor.gCost) {
+				int Cost = Current.gCost + grid.GetDistance (Location, Target);
+				if (!Opened.Contains (Neighbor) || Cost < Neighbor.hCost) {
+					Neighbor.hCost = grid.GetHeuristic (Neighbor, Target);
+					Neighbor.gCost = Cost;
 					Neighbor.Parent = Current;
-					Neighbor.gCost = CostToNeighbor;
-					Neighbor.hCost = grid.GetHeuristic (Neighbor, targetNode);
-					if (!Open.Contains(Neighbor)) {
-						Open.Push (Neighbor);
-					} 
+					if (!Opened.Contains (Neighbor)) {
+					//	Debug.DrawLine (Current.worldPosition, Neighbor.worldPosition);
+						Debug.DrawLine (Current.worldPosition, Neighbor.worldPosition);
+						Opened.Push (Neighbor);
+					}
 				}
 			}
 		}
+		Debug.Log ("Ending at: " + Current.Position.x + ", " + Current.Position.y);
 		return null;
 	}
 
-	// Get corrected path
-	private static Vector3[] ReversePath(Node startNode, Node endNode) {
-		List<Node> Path = new List<Node>();
-		Node CurrentNode = endNode;
-		while (CurrentNode != startNode) {
-			Path.Add (CurrentNode);
-			CurrentNode = CurrentNode.Parent;
+	private static List<Node> ReversePath ( Node Location, Node Target) {
+		List<Node> Path = new List<Node> ();
+		Node Current = Target;
+		while (Current != Location) {
+			Path.Add (Current);
+			Current = Current.Parent;
 		}
-		return getWaypoints (Path);
+		Path.Reverse();
+		return Path;
 	}
 
-	// Generate waypoints for movement
-	private static Vector3[] getWaypoints (List<Node> Path) {
+	private static Vector3[] ToWaypoints (List<Node> Nodes) {
 		List<Vector3> Waypoints = new List<Vector3> ();
-		Vector2 dirOld = Vector2.zero;
-		Node oldNode = Path [0];
-		Path.RemoveAt (0);
-		foreach (Node newNode in Path) {
-			Vector2 dirNew = new Vector2 (oldNode.Position.x - newNode.Position.x, oldNode.Position.y - newNode.Position.y);
-			if (dirNew != dirOld)
-				Waypoints.Add (newNode.worldPosition);
-			dirOld = dirNew;
-			oldNode = newNode;
+		Vector2 OldDirection = Vector2.zero;
+		Node OldNode = Nodes [0];
+		Nodes.RemoveAt (0);
+		foreach (Node Node in Nodes) {
+			Vector2 NewDirection = new Vector2 (OldNode.Position.x - Node.Position.x, OldNode.Position.y - Node.Position.y);
+			if (NewDirection != OldDirection)
+				Waypoints.Add (Node.worldPosition);
+			OldDirection = NewDirection;
+			OldNode = Node;
 		}
-		Waypoints.Reverse ();
-		return Waypoints.ToArray();
+		return Waypoints.ToArray ();
 	}
-
 }

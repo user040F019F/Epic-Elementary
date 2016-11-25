@@ -61,3 +61,4 @@ E:\Unity\Source Controlled\Epic-Elementary\Epic-Elementary\Epic Elementary\Temp\
 E:\Unity\Source Controlled\Epic-Elementary\Epic-Elementary\Epic Elementary\Temp\bin\Debug\UnityEngine.UI.xml
 E:\Unity\Source Controlled\Epic-Elementary\Epic-Elementary\Epic Elementary\Temp\bin\Debug\UnityEngine.Networking.xml
 E:\Unity\Source Controlled\Epic-Elementary\Epic-Elementary\Epic Elementary\obj\Debug\Assembly-CSharp.pdb
+E:\Unity\Source Controlled\Epic-Elementary\Epic-Elementary\Epic Elementary\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb

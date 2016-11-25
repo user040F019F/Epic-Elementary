@@ -46,13 +46,15 @@ public class Platform : MonoBehaviour {
         Enemies = new List<GameObject>(
             Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2))
             );
-        for (int i = 0; i < Enemies.Capacity; i++) {
+        for (int i = 0; i < 1; i++) {
             Enemies.Add(Instantiate(Enemy));
             Enemies[i].GetComponent<ActorController>().level = Level;
             Enemies[i].transform.parent = transform;
             Enemies[i].GetComponentInChildren<SkinnedMeshRenderer>().material = LevelGen.Package.Enemies[Rnd.Next(0, LevelGen.Package.Enemies.Length)];
-            Enemies[i].transform.localPosition = new Vector3(Mathf.Clamp((float)Rnd.NextDouble(), 0 + padding, 1 - padding), 0, -Mathf.Clamp((float)Rnd.NextDouble(), .2f, .5f));
-            Enemies[i].transform.localRotation = Quaternion.Euler(new Vector3(0, (float)Rnd.Next(0, 360), 0));
+			Enemies[i].transform.localPosition = new Vector3(Mathf.Clamp((float)Rnd.NextDouble(), 0 + padding, 1 - padding), 0, -Mathf.Clamp((float)Rnd.NextDouble(), .2f, .5f));
+			foreach (Collider collider in Physics.OverlapSphere(Enemies[i].transform.position, Enemies[i].transform.lossyScale.x, ObstacleMask)) {
+				Destroy(Enemies[i]);
+			}
         }
 
     }
