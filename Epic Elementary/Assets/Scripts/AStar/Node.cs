@@ -23,6 +23,10 @@ public class Node : IHeapItem<Node> {
 		}
 	}
 
+    public Node Clone () {
+        return (Node)this.MemberwiseClone();
+    }
+
 	public bool isWalkable = true, isJumpable = false;
 	public Vector3 worldPosition;
 	public int gCost;

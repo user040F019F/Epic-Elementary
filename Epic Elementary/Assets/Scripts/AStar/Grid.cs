@@ -53,7 +53,7 @@ public class Grid : MonoBehaviour {
 				int X = node.Position.x + x;
 				int Y = node.Position.y + y;
 				if (X >= 0 && X < Size.x && Y >= 0 && Y < Size.y)
-					Neighbors.Add (grid [X, Y]);
+					Neighbors.Add (grid [X, Y].Clone());
 			}
 		}
 		return Neighbors.ToArray();
@@ -80,7 +80,7 @@ public class Grid : MonoBehaviour {
 	}
 
 	// Generate grid
-	private void CreateGrid() {
+	public Grid CreateGrid() {
 		grid = new Node[Size.x, Size.y];
 		for (int x = 0; x < Size.x; x++) {
 			for (int y = 0; y < Size.y; y++) {
@@ -101,26 +101,31 @@ public class Grid : MonoBehaviour {
 				grid [x, y] = new Node (CurrentPoint, new Point (x, y), Walkable, Jumpable);
 			}
 		}
+        return this;
 	}
 
 	// Get index from a world point
 	private Point IndexFromWorldPoint (Vector3 Location) {
-		Vector3 LocalLocation = Location - this.Position;
-		Vector2 LocationPercentage = new Vector2 (
-			                             Mathf.Clamp01 (LocalLocation.x / transform.localScale.x),
-			                             Mathf.Clamp01 (LocalLocation.z / transform.localScale.z)
-		                             );
-		return new Point (
-			(Size.x -1) * LocationPercentage.x,
-			(Size.y -1) * LocationPercentage.y
-		                 );
+            Vector3 LocalLocation = Location - this.Position;
+            Vector2 LocationPercentage = new Vector2(
+                                             Mathf.Clamp01(LocalLocation.x / transform.localScale.x),
+                                             Mathf.Clamp01(LocalLocation.z / transform.localScale.z)
+                                         );
+            return new Point(
+                (Size.x - 1) * LocationPercentage.x,
+                (Size.y - 1) * LocationPercentage.y
+                             );
 	}
 
-	// Get node from a world point
-	public Node NodeFromWorldPoint (Vector3 Position) {
-		Point Location = IndexFromWorldPoint(Position);
-		return grid[Location.x, Location.y];
-	}
+    // Get node from a world point
+    public Node NodeFromWorldPoint(Vector3 Position) {
+        try {
+            Point Location = IndexFromWorldPoint(Position);
+            return grid[Location.x, Location.y];
+        } catch {
+            return null;
+        }
+    }
 
 	// Get distance allowing diagonals
 	public int GetDistance (Node start, Node target) {

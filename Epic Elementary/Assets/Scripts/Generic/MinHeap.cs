@@ -5,17 +5,17 @@ public class MinHeap<T> where T : IHeapItem<T> {
 	// Imported for optimization
 
 	T[] items;
-	int Size;
+	public int Size;
 
 	public MinHeap (int MaxSize) {
 		items = new T[MaxSize];
 	}
 
 	public void Push(T item) {
-		item.Index = Size;
-		items [Size] = item;
-		SortUp (item);
-		Size++;
+        item.Index = Size;
+        items[Size] = item;
+        SortUp(item);
+        Size++;
 	}
 
 	public T Pop () {

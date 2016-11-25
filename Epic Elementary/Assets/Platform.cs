@@ -46,7 +46,7 @@ public class Platform : MonoBehaviour {
         Enemies = new List<GameObject>(
             Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2))
             );
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < Enemies.Capacity; i++) {
             Enemies.Add(Instantiate(Enemy));
             Enemies[i].GetComponent<ActorController>().level = Level;
             Enemies[i].transform.parent = transform;

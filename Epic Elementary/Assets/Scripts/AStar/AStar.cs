@@ -19,21 +19,22 @@ public class AStar : MonoBehaviour {
 	}
 
 	public Vector3[] PathToPlayer (Vector3 Location) {
-		return PathTo (grid.NodeFromWorldPoint(Location), PlayerNode);
+		return PathTo (grid.NodeFromWorldPoint(Location).Clone(), grid.NodeFromWorldPoint(Player.transform.position).Clone());
 	}
 
 	public static Vector3[] PathTo (Node Location, Node Target) {
 		MinHeap<Node> Opened = new MinHeap<Node> (grid.maxSize); // Nodes Found
 		HashSet<Node> Closed = new HashSet<Node>(); // Nodes Explored
 		Opened.Push(Location); // Open current location
-		Node Current = null;
-		while (Opened.Count > 0) {
+        int i = 0;
+		while (Opened.Count > 0 && i < 3) {
 			// Move Current node into explored
-			Current = Opened.Pop ();
+			Node Current = Opened.Pop ();
+            i++;
 			Closed.Add (Current);
 			// Stop if target node found
-			if (Current.Position.x == Target.Position.x && Current.Position.y == Target.Position.y) {
-				return ToWaypoints (ReversePath (Location, Target));
+			if (Current == Target) {
+				return ToWaypoints (ReversePath (Location, Current));
 			}
 			Node[] Neighbors = grid.GetNeighbors (Current);
 			foreach (Node Neighbor in Neighbors) {
@@ -43,18 +44,16 @@ public class AStar : MonoBehaviour {
 					continue;
 				int Cost = Current.gCost + grid.GetDistance (Location, Target);
 				if (!Opened.Contains (Neighbor) || Cost < Neighbor.hCost) {
-					Neighbor.hCost = grid.GetHeuristic (Neighbor, Target);
-					Neighbor.gCost = Cost;
-					Neighbor.Parent = Current;
+                    Neighbor.Parent = Current;
+                    Neighbor.gCost = Cost;
+                    Neighbor.hCost = grid.GetHeuristic (Neighbor, Target);
 					if (!Opened.Contains (Neighbor)) {
-					//	Debug.DrawLine (Current.worldPosition, Neighbor.worldPosition);
-						Debug.DrawLine (Current.worldPosition, Neighbor.worldPosition);
+				    	Debug.DrawLine (Current.worldPosition, Neighbor.worldPosition);
 						Opened.Push (Neighbor);
 					}
 				}
 			}
 		}
-		Debug.Log ("Ending at: " + Current.Position.x + ", " + Current.Position.y);
 		return null;
 	}
 
@@ -63,7 +62,8 @@ public class AStar : MonoBehaviour {
 		Node Current = Target;
 		while (Current != Location) {
 			Path.Add (Current);
-			Current = Current.Parent;
+         //   Debug.DrawLine(Current.worldPosition, Current.Parent.worldPosition);
+            Current = Current.Parent;
 		}
 		Path.Reverse();
 		return Path;

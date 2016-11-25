@@ -12,7 +12,12 @@ public class AI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-		Vector3[] Path = ai.PathToPlayer (transform.position);
+        try {
+            Vector3[] Path = ai.PathToPlayer(transform.position);
+        } catch {
+
+        }
+        //Debug.DrawLine(transform.position, Path[0]);
 		//Debug.Log (Path);
 		//Debug.DrawLine (transform.position, Path [0]);
 	}
