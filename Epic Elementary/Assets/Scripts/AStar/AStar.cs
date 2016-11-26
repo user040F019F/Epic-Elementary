@@ -9,6 +9,8 @@ public class AStar : MonoBehaviour {
 	private GameObject Player;
 	[HideInInspector]
 	public static Node PlayerNode; // Keep track of player location
+	[Range(0f, 100f)]
+	public float DetectionRadius = 5f;
 
 	void Start () {
 		grid = GetComponentInChildren<Grid> ();

@@ -180,24 +180,27 @@ public class ActorController : MonoBehaviour {
 	public void Move (Vector3 Movement)
     {
 		if (!Dead) {
-            if (Movement.magnitude > MinSpeed) {
-                if (!Jumping) {
-                    Velocity = Movement * Multiplier;
-                    if (Velocity.magnitude > MaxJoggingSpeed) {
-                        Velocity.Normalize();
-                        Velocity *= MaxJoggingSpeed;
-                    }
-                }
-                Finalize(Movement);
-            } else {
-                Velocity = Vector3.zero;
-                transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
-            }
+			if (Movement.magnitude > MinSpeed) {
+				if (!Jumping) {
+					Velocity = Movement * Multiplier;
+					if (Velocity.magnitude > MaxJoggingSpeed) {
+						Velocity.Normalize ();
+						Velocity *= MaxJoggingSpeed;
+					}
+				}
+				Finalize (Movement);
+			} else {
+				Velocity = Vector3.zero;
+				transform.rotation = Quaternion.Euler (0, transform.rotation.y, 0);
+			}
 			Animator.SetFloat ("Speed", Movement.magnitude);
 			Animator.SetBool ("Running", false);
             
-		} else
+		} else {
+			Animator.SetFloat ("Speed", 0);
+			Animator.SetBool ("Running", false);
 			Velocity = Vector3.zero;
+		}
     }
 
 	// Throw
