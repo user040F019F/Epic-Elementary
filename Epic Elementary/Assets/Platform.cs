@@ -54,22 +54,23 @@ public class Platform : MonoBehaviour {
         }
 
         // Generate enemies
-        
+        int Limit = Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2));
         Enemies = new List<GameObject>(
             Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2))
             );
-        for (int i = 0; i < Enemies.Capacity; i++) {
+        for (int i = 0; i < Limit; i++) {
             try {
-                Enemies.Add(Instantiate(Enemy));
-                Enemies[i].GetComponent<ActorController>().level = Level;
-                Enemies[i].transform.parent = Container;
-                Enemies[i].GetComponentInChildren<SkinnedMeshRenderer>().material = LevelGen.Package.Enemies[Rnd.Next(0, LevelGen.Package.Enemies.Length)];
-                Enemies[i].transform.position = new Vector3(
+                //Enemies.Add(Instantiate(Enemy));
+                GameObject E = Instantiate(Enemy);
+                E.GetComponent<ActorController>().level = Level;
+                E.transform.parent = Container;
+                E.GetComponentInChildren<SkinnedMeshRenderer>().material = LevelGen.Package.Enemies[Rnd.Next(0, LevelGen.Package.Enemies.Length)];
+                E.transform.position = new Vector3(
                     Rnd.Next((int)(transform.position.x + padding), (int)(transform.lossyScale.x + transform.position.x - padding)),
                     transform.position.y,
                     Rnd.Next((int)Level.zBoundFront, (int)Level.zBoundFront));
-                foreach (Collider collider in Physics.OverlapSphere(Enemies[i].transform.position, Enemies[i].transform.lossyScale.x, ObstacleMask)) {
-                    Destroy(Enemies[i]);
+                foreach (Collider collider in Physics.OverlapSphere(E.transform.position, E.transform.lossyScale.x, ObstacleMask)) {
+                    Destroy(E);
                 }
             } catch { }
         }

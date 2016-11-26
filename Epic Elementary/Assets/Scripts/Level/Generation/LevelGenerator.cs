@@ -131,8 +131,16 @@ public class LevelGenerator : MonoBehaviour {
 		}
 		SetAI ();
 	}
+    
+    public void MoveEnemy(GameObject Enemy) {
+        Enemy.transform.position = new Vector3(
+            Platforms[0].transform.position.x + 1,
+            Enemy.transform.position.y,
+            Enemy.transform.position.z
+                );
+    }
 
-	private void SetAI() {
+    private void SetAI() {
 		int LastIndex = Platforms.Count - 1;
 		if (LastIndex > -1) {
 			AIGrid.transform.localScale = new Vector3 (

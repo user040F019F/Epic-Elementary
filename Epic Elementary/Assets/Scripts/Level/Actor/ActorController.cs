@@ -72,14 +72,9 @@ public class ActorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//health testing
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			this.Health -= 10f;
-		}
-
-		if (Input.GetKeyDown (KeyCode.Q)) {
-			this.Health += 10f;
-		}
+        if (Health <= 0) {
+            Die();
+        }
 
 	}
 
@@ -103,6 +98,7 @@ public class ActorController : MonoBehaviour {
 
 	public void Die() {
 		Dead = true;
+        Health = 0;
 
         Debug.Log("player death");
 
