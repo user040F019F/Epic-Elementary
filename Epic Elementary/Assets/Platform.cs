@@ -28,9 +28,6 @@ public class Platform : MonoBehaviour {
                 ((float)Rnd.NextDouble() * transform.localScale.x)
             )
         );
-        Debug.Log(transform.position.x + ", " + transform.lossyScale.x);
-        Debug.Log(transform.position.x + transform.lossyScale.x);
-        Debug.Log(Rnd.Next((int)transform.position.x, (int)(transform.position.x + transform.lossyScale.x)));
         for (int i = 0; i < Obstacles.Capacity; i++) {
             try {
                 Obstacles.Add(Instantiate(

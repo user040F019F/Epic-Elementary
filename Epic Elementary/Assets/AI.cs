@@ -31,10 +31,11 @@ public class AI : MonoBehaviour {
 			}
 		} catch {
 			Actor.Move(Vector3.zero);
-			transform.LookAt(AStar.PlayerNode.worldPosition);
+            try {
+                transform.LookAt(AStar.PlayerNode.worldPosition);
+            } catch {
+                // Actor not populated yet
+            }
         }
-        //Debug.DrawLine(transform.position, Path[0]);
-		//Debug.Log (Path);
-		//Debug.DrawLine (transform.position, Path [0]);
 	}
 }

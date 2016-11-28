@@ -25,12 +25,13 @@ public class AnimationEventController : MonoBehaviour {
 
     void ThrowObject()
     {
-		GameObject Projectile = Instantiate (Weapon, 
-			RightHand.transform.position,
-			Quaternion.identity) as GameObject;
-		Projectile.GetComponent<Rigidbody>().velocity = BallisticVelocity(ActorController.ThrowDestination, Projectile.transform.position, ActorController.ThrowAngle);
-		Debug.Log (ActorController.ThrowDestination);
-        clip.Play();
+        try {
+            GameObject Projectile = Instantiate(Weapon,
+                RightHand.transform.position,
+                Quaternion.identity) as GameObject;
+            Projectile.GetComponent<Rigidbody>().velocity = BallisticVelocity(ActorController.ThrowDestination, Projectile.transform.position, ActorController.ThrowAngle);
+            clip.Play();
+        } catch { }
     }
 
 	private Vector3 BallisticVelocity(Vector3 target, Vector3 origin, float angle)
