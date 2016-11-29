@@ -128,6 +128,7 @@ public class LevelGenerator : MonoBehaviour {
 				Platforms.Remove(Platform);
 				Destroy(Platform);
 			}
+
 		}
 		SetAI ();
 	}
