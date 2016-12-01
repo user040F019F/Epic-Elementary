@@ -123,11 +123,12 @@ public class LevelGenerator : MonoBehaviour {
 
 			// Destroy old platforms
 			GameObject Platform = Platforms.First();
-			if (cViewport.x > Platform.transform.position.x + Platform.transform.localScale.x)
-			{
-				Platforms.Remove(Platform);
-				Destroy(Platform);
-			}
+            try {
+                if (cViewport.x > Platform.transform.position.x + Platform.transform.localScale.x) {
+                    Platforms.Remove(Platform);
+                    Destroy(Platform);
+                }
+            } catch { }
 
 		}
 		SetAI ();
@@ -149,11 +150,13 @@ public class LevelGenerator : MonoBehaviour {
 				1,
 				Math.Abs(levelData.zBoundBack - levelData.zBoundFront)
 			);
-			AI.transform.position = new Vector3 (
-				Platforms[0].transform.position.x,
-				Platforms[0].transform.position.y,
-				levelData.zBoundBack
-			);
+            try {
+                AI.transform.position = new Vector3(
+                    Platforms[0].transform.position.x,
+                    Platforms[0].transform.position.y,
+                    levelData.zBoundBack
+                );
+            } catch { }
 		}
 	}
 
