@@ -135,10 +135,11 @@ public class LevelGenerator : MonoBehaviour {
 	}
     
     public void MoveEnemy(GameObject Enemy) {
-        Destroy(Enemy);
         try {
-            Platforms.Last().GetComponent<Platform>().SpawnEnemy();
-        } catch { }
+			if (!Enemy.GetComponent<ActorController>().Dead)
+            	Platforms.Last().GetComponent<Platform>().SpawnEnemy();
+		} catch { }
+		Destroy(Enemy);
     }
 
     private void SetAI() {

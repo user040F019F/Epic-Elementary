@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Level\Actor\ActorController.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\AnimationEventController.cs" />
      <Compile Include="Assets\Scripts\Level\Actor\Player\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Level\BackToLevelSelect.cs" />
      <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer.cs" />
      <Compile Include="Assets\Scripts\Level\Camera\FollowPlayer_LevelSelect.cs" />
      <Compile Include="Assets\Scripts\Level\Generation\LevelGenerator.cs" />
@@ -66,6 +67,8 @@
      <Compile Include="Assets\Scripts\Level\Generation\TexturePack.cs" />
      <Compile Include="Assets\Scripts\Level\HealthBar\BarScript.cs" />
      <Compile Include="Assets\Scripts\Level\HealthBar\Stat.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelSelection\AchivementOne.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelSelection\AchivementTwo.cs" />
      <Compile Include="Assets\Scripts\Level\LevelSelection\Classroom.cs" />
      <Compile Include="Assets\Scripts\Level\LevelSelection\Outside.cs" />
      <Compile Include="Assets\Scripts\Level\LevelSelection\TriggerBox.cs" />

@@ -29,10 +29,8 @@ public class AnimationEventController : MonoBehaviour {
             GameObject Projectile = Instantiate(Weapon,
                 RightHand.transform.position,
                 Quaternion.identity) as GameObject;
-            try {
                 Projectile.GetComponent<WeaponManager>().isFriendly = gameObject.tag == "Actor";
                 Projectile.GetComponent<Rigidbody>().velocity = BallisticVelocity(ActorController.ThrowDestination, Projectile.transform.position, ActorController.ThrowAngle);
-            } catch { }
             clip.Play();
         } catch { }
     }

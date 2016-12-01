@@ -23,7 +23,6 @@ public class ActorController : MonoBehaviour {
             this.health = Mathf.Clamp(value, 0, this.MaxHealth);
         }
     }
-    [HideInInspector]
     public float MaxHealth = 100;
 
     // Throwing Angle
@@ -185,7 +184,7 @@ public class ActorController : MonoBehaviour {
 					}
 				}
 				Finalize (Movement);
-                transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
+               // transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
 			} else {
 				Velocity = Vector3.zero;
 				//transform.rotation = Quaternion.Euler (0, transform.rotation.y, 0);

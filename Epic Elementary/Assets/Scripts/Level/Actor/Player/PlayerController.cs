@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     private ActorController ActorController;
+	private Animator Animator;
 
     public float CameraPadding = .1f;
 
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ActorController = gameObject.GetComponent<ActorController>();
+		Animator = gameObject.GetComponent<Animator> ();
        // globalControl = GameObject.FindGameObjectWithTag("GlobalControl").GetComponent<GlobalControl>();
        // health.currentVal = globalControl.health;
 	}
@@ -42,7 +44,11 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKey (KeyCode.LeftShift)) { // Left Shift: Run
 			ActorController.Run (Movement);
 		} else {
-			ActorController.Move (Movement); // Continuously update movement
+			if (Movement.magnitude >= .3)
+				ActorController.Move (Movement); // Continuously update movement
+			else
+				Animator.SetFloat ("Speed", 0);
+				Animator.SetBool ("Running", false);
         }
 
         // Get character's coordinate relative to camera

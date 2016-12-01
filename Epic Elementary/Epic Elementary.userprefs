@@ -1,18 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\AI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level\Actor\ActorController.cs">
     <Files>
       <File FileName="Assets\Scripts\Generic\MinHeap.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AStar\Node.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AStar\AStar.cs" Line="13" Column="30" />
+      <File FileName="Assets\Scripts\AStar\AStar.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AStar\Grid.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Level\Generation\LevelGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Level\Generation\LevelGenerator.cs" Line="122" Column="16" />
       <File FileName="Assets\Scripts\Level\Other\LevelData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Level\Actor\ActorController.cs" Line="201" Column="40" />
+      <File FileName="Assets\Scripts\Level\Actor\ActorController.cs" Line="166" Column="64" />
       <File FileName="Assets\Scripts\Global Control\PlayerState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Platform.cs" Line="49" Column="30" />
-      <File FileName="Assets\AI.cs" Line="21" Column="58" />
-      <File FileName="Assets\Scripts\Level\Actor\AnimationEventController.cs" Line="31" Column="1" />
+      <File FileName="Assets\Platform.cs" Line="54" Column="91" />
+      <File FileName="Assets\AI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Level\Actor\AnimationEventController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Level\Actor\Player\PlayerController.cs" Line="27" Column="51" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -51,7 +51,7 @@ public class Platform : MonoBehaviour {
         }
 
         // Generate enemies
-        int Limit = Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2));
+        int Limit = Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 4));
         for (int i = 0; i < Limit; i++) {
             SpawnEnemy();
         }
