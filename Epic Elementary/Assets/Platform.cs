@@ -7,19 +7,19 @@ public class Platform : MonoBehaviour {
     private LevelGenerator LevelGen;
     private LevelData Level;
     private List<GameObject> Obstacles;
-    private List<GameObject> Enemies;
     private Transform Player;
     [SerializeField]
     private GameObject Enemy; 
     [SerializeField]
     private LayerMask ObstacleMask;
     private float padding = 2f;
+    Transform Container;
 
 	// Use this for initialization
 	void Start () {
         LevelGen = GameObject.FindGameObjectWithTag("Generator").GetComponent<LevelGenerator>();
         Player = GameObject.FindGameObjectWithTag("Actor").transform;
-        Transform Container = GameObject.FindGameObjectWithTag("Container").transform;
+        Container = GameObject.FindGameObjectWithTag("Container").transform;
         Level = transform.parent.GetComponent<LevelData>();
         System.Random Rnd = new System.Random();
         // Generate Obstacles
@@ -52,27 +52,29 @@ public class Platform : MonoBehaviour {
 
         // Generate enemies
         int Limit = Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2));
-        Enemies = new List<GameObject>(
-            Mathf.RoundToInt((float)Rnd.NextDouble() * (transform.localScale.x / 2))
-            );
         for (int i = 0; i < Limit; i++) {
-            try {
-                //Enemies.Add(Instantiate(Enemy));
-                GameObject E = Instantiate(Enemy);
-                E.GetComponent<ActorController>().level = Level;
-                E.transform.parent = Container;
-                E.GetComponentInChildren<SkinnedMeshRenderer>().material = LevelGen.Package.Enemies[Rnd.Next(0, LevelGen.Package.Enemies.Length)];
-                E.transform.position = new Vector3(
-                    Rnd.Next((int)(transform.position.x + padding), (int)(transform.lossyScale.x + transform.position.x - padding)),
-                    transform.position.y,
-                    Rnd.Next((int)Level.zBoundFront, (int)Level.zBoundFront));
-                foreach (Collider collider in Physics.OverlapSphere(E.transform.position, E.transform.lossyScale.x, ObstacleMask)) {
-                    Destroy(E);
-                }
-            } catch { }
+            SpawnEnemy();
         }
         
 
+    }
+
+    public void SpawnEnemy() {
+        System.Random Rnd = new System.Random();
+        try {
+            //Enemies.Add(Instantiate(Enemy));
+            GameObject E = Instantiate(Enemy);
+            E.GetComponent<ActorController>().level = Level;
+            E.transform.parent = Container;
+            E.GetComponentInChildren<SkinnedMeshRenderer>().material = LevelGen.Package.Enemies[Rnd.Next(0, LevelGen.Package.Enemies.Length)];
+            E.transform.position = new Vector3(
+                Rnd.Next((int)(transform.position.x + padding), (int)(transform.lossyScale.x + transform.position.x - padding)),
+                transform.position.y,
+                Rnd.Next((int)Level.zBoundFront, (int)Level.zBoundFront));
+            foreach (Collider collider in Physics.OverlapSphere(E.transform.position, E.transform.lossyScale.x, ObstacleMask)) {
+                Destroy(E);
+            }
+        } catch { }
     }
 
     void OnDestroy () {

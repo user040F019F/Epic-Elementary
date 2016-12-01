@@ -135,11 +135,10 @@ public class LevelGenerator : MonoBehaviour {
 	}
     
     public void MoveEnemy(GameObject Enemy) {
-        Enemy.transform.position = new Vector3(
-            Platforms[0].transform.position.x + 1,
-            Enemy.transform.position.y,
-            Enemy.transform.position.z
-                );
+        Destroy(Enemy);
+        try {
+            Platforms.Last().GetComponent<Platform>().SpawnEnemy();
+        } catch { }
     }
 
     private void SetAI() {
