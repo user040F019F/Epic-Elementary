@@ -7,6 +7,9 @@ public class GlobalControl : MonoBehaviour {
 
     // data to save
     public float health;
+    public int currentLevel;
+    public int achivementOne;
+    public int achivementTwo;
 
     void Awake() {
 

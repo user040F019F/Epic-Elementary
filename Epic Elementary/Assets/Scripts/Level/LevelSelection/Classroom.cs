@@ -12,6 +12,8 @@ public class Classroom : MonoBehaviour {
 
             Debug.Log("Load Classroom");
 
+            GlobalControl.Instance.currentLevel = 0;
+
             playerState.SavePlayer();
 
             Application.LoadLevel("Level 2");

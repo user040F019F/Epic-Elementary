@@ -12,6 +12,8 @@ public class Outside : MonoBehaviour {
 
             Debug.Log("Entering Outside");
 
+            GlobalControl.Instance.currentLevel = 1;
+
             playerState.SavePlayer();
 
             Application.LoadLevel("Level");
