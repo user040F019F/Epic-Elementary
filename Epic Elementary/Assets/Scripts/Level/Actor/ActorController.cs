@@ -187,7 +187,7 @@ public class ActorController : MonoBehaviour {
 				Finalize (Movement);
 			} else {
 				Velocity = Vector3.zero;
-				transform.rotation = Quaternion.Euler (0, transform.rotation.y, 0);
+				//transform.rotation = Quaternion.Euler (0, transform.rotation.y, 0);
 			}
 			Animator.SetFloat ("Speed", Movement.magnitude);
 			Animator.SetBool ("Running", false);

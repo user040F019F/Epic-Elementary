@@ -16,7 +16,7 @@ public class Classroom : MonoBehaviour {
 
             playerState.SavePlayer();
 
-            Application.LoadLevel("Level 2");
+            Application.LoadLevel("Level");
 
 
         }

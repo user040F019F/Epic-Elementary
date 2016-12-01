@@ -43,7 +43,7 @@ public class LevelGenerator : MonoBehaviour {
     private TexturePack[] Packages;
     public TexturePack Package {
         get {
-            return Packages[0];
+            return Packages[GlobalControl.Instance.currentLevel];
         }
     }
 
