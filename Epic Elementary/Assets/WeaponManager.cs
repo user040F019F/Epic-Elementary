@@ -3,14 +3,13 @@ using System.Collections;
 
 public class WeaponManager : MonoBehaviour {
     public int Damage = 5;
+    public bool isFriendly = true;
     void OnCollisionEnter (Collision other) {
-        if (other.gameObject.CompareTag("Actor") || other.gameObject.CompareTag("Enemy")) {
+        if ((other.gameObject.CompareTag("Actor") && !isFriendly) || (other.gameObject.CompareTag("Enemy") && isFriendly)) {
             other.gameObject.GetComponent<ActorController>().Health -= Damage;
-         //   Destroy(gameObject);
-        }
-        if (other.gameObject.CompareTag("Platform")) {
-            gameObject.GetComponent<Rigidbody>().detectCollisions = false;
-            Destroy(gameObject, 2000);
+            Destroy(gameObject);
+        } else if (other.gameObject.CompareTag("Platform")) {
+            Destroy(gameObject);
         }
     }
 }
