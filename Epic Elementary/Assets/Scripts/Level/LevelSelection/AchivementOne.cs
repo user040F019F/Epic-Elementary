@@ -7,7 +7,7 @@ public class AchivementOne : MonoBehaviour {
 
 	void Start () {
 	
-        if (GlobalControl.Instance.achivementOne == 1 && GlobalControl.Instance.outsideEmemiesKilled == 5) {
+        if (GlobalControl.Instance.achivementOne == 1 && GlobalControl.Instance.outsideEmemiesKilled > 5) {
 
             this.GetComponent<MeshRenderer>().enabled = true;
             text.SetActive(true);
