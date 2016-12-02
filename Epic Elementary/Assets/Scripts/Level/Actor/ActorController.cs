@@ -51,6 +51,8 @@ public class ActorController : MonoBehaviour {
 
 	GlobalControl globalControl;
 
+    public bool neverDone;
+
 	private void Awake() {
         this.Health = this.MaxHealth;
 	}
@@ -67,15 +69,44 @@ public class ActorController : MonoBehaviour {
 		}
 		fromRagdoll ();
 		globalControl = GameObject.FindGameObjectWithTag ("GlobalControl").GetComponent<GlobalControl> ();
+
+        neverDone = true;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
         if (Health <= 0) {
             Die();
         }
 
-	}
+        if (this.tag == "Enemy" && GlobalControl.Instance.currentLevel == 0) {
+
+            if (neverDone == true) {
+
+                if (this.health == 0) {
+                    GlobalControl.Instance.classroomEnemiesKilled += 1;
+                    neverDone = false;
+                }
+            }
+
+        }
+
+        if (this.tag == "Enemy") {
+
+            if (neverDone == true && GlobalControl.Instance.currentLevel == 1) {
+
+                if (this.health == 0) {
+                    GlobalControl.Instance.outsideEmemiesKilled += 1;
+                    neverDone = false;
+                }
+            }
+
+        }
+
+
+    }
 
     void LateUpdate()
     {

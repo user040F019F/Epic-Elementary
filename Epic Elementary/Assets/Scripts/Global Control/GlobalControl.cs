@@ -10,6 +10,8 @@ public class GlobalControl : MonoBehaviour {
     public int currentLevel;
     public int achivementOne;
     public int achivementTwo;
+    public int classroomEnemiesKilled;
+    public int outsideEmemiesKilled;
 
     void Awake() {
 
